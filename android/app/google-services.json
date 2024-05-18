@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "522828671309",
+    "project_id": "farmup-52911",
+    "storage_bucket": "farmup-52911.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522828671309:android:9f58aba1bd9c605677af04",
+        "android_client_info": {
+          "package_name": "com.example.farm_up"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1CYG5anGSGcikqto8AN9gjNf0iP-zw5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
