@@ -28,5 +28,15 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       await _userRepository.logOut();
       emit(SignInInitial());
     });
+
+    on<ResetPasswordRequired>((event, emit) async {
+      try {
+        await _userRepository.resetPassword(event.email);
+        emit(ResetPasswordSuccess());
+      } catch (e) {
+        log(e.toString());
+        emit(ResetPasswordFailure());
+      }
+    });
   }
 }

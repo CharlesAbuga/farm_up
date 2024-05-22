@@ -17,3 +17,9 @@ class SignInRequired extends SignInEvent {
 class SignOutRequired extends SignInEvent {
   const SignOutRequired();
 }
+
+class ResetPasswordRequired extends SignInEvent {
+  final String email;
+
+  const ResetPasswordRequired(this.email);
+}

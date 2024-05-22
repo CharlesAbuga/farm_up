@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:user_repository/user_repository.dart';
 
 class FirebaseUserRepository implements UserRepository {
@@ -98,6 +99,24 @@ class FirebaseUserRepository implements UserRepository {
       await userCollection.doc(user.id).update(user.toEntity().toDocument());
     } catch (e) {
       log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> signInWithGoogle() async {
+    try {
+      GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithProvider(googleAuthProvider);
+      String? name = userCredential.user!.displayName;
+      String? email = userCredential.user!.email;
+
+      MyUser myUser = MyUser.empty.copyWith(name: name, email: email);
+      await setUserData(myUser);
+    } on FirebaseException catch (e) {
+      log(e.toString());
+      print(e.message);
       rethrow;
     }
   }

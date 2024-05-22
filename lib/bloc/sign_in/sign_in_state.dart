@@ -11,6 +11,10 @@ class SignInInitial extends SignInState {}
 
 class SignInSuccess extends SignInState {}
 
+class ResetPasswordSuccess extends SignInState {}
+
+class ResetPasswordFailure extends SignInState {}
+
 class SignInFailure extends SignInState {
   final String? message;
 

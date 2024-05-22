@@ -12,7 +12,20 @@
           "package_name": "com.example.farm_up"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "522828671309-5bc2o0ivuh8uoqb38oce4io8cup98840.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.farm_up",
+            "certificate_hash": "b7d4a4e0cb9c72829f6d4c863e294e33b8c68bc3"
+          }
+        },
+        {
+          "client_id": "522828671309-6jb6fj0qjpql40sr1b0ikh8t49rj04hc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA1CYG5anGSGcikqto8AN9gjNf0iP-zw5c"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522828671309-6jb6fj0qjpql40sr1b0ikh8t49rj04hc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "522828671309-dbd0j6vpt3829cl10kj7fdo3vkqj3q96.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.farmUp"
+              }
+            }
+          ]
         }
       }
     }
