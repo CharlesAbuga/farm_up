@@ -36,6 +36,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     ImageConv imageConv = ImageConv();
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: AppBarWidget(titlePage: 'FarmUp')),

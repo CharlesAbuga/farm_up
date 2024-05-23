@@ -15,22 +15,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: const PreferredSize(
             preferredSize: Size.fromHeight(kToolbarHeight),
             child: AppBarWidget(titlePage: 'Settings')),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SwitchListTile(
-                secondary: context.read<ThemeBloc>().state == ThemeMode.dark
-                    ? Icon(Icons.dark_mode)
-                    : Icon(Icons.light_mode),
-                title: const Text('Dark Mode'),
-                value: context.read<ThemeBloc>().state == ThemeMode.dark,
-                onChanged: (value) {
-                  setState(() {
-                    context.read<ThemeBloc>().add(ThemeChanged(value));
-                  });
+              BlocBuilder<ThemeBloc, ThemeMode>(
+                builder: (context, themeMode) {
+                  return SwitchListTile(
+                    secondary: context.read<ThemeBloc>().state == ThemeMode.dark
+                        ? Icon(Icons.dark_mode)
+                        : Icon(Icons.light_mode),
+                    title: const Text('Dark Mode'),
+                    value: themeMode == ThemeMode.dark,
+                    onChanged: (value) {
+                      setState(() {
+                        context.read<ThemeBloc>().add(ThemeChanged(value));
+                      });
+                    },
+                  );
                 },
               ),
               // Add more settings widgets here

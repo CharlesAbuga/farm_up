@@ -26,6 +26,7 @@ class _AddLivestockState extends State<AddLivestock> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: const PreferredSize(
             preferredSize: Size.fromHeight(kToolbarHeight),
             child: AppBarWidget(titlePage: 'Add Livestock')),
