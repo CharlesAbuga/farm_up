@@ -36,6 +36,7 @@ class GetLivestockBloc extends Bloc<GetLivestockEvent, GetLivestockState> {
     } on FirebaseException catch (e) {
       // Handle error
       print(e.toString());
+      print(e.message);
       log(e.toString());
       emit(GetLivestockFailure());
     }

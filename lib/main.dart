@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:farm_up/bloc/theme_bloc/theme_bloc.dart';
+import 'package:farm_up/first_run.dart';
+import 'package:farm_up/intro_screen.dart';
 import 'package:farm_up/main_app.dart';
 import 'package:farm_up/screens/homepage.dart';
 import 'package:farm_up/simple_bloc_observer.dart';
@@ -34,19 +36,32 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ThemeBloc(),
-      child: BlocBuilder<ThemeBloc, ThemeMode>(
-        builder: (context, state) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: lightTheme,
-            themeMode: state,
-            darkTheme: darkTheme,
-            home: MainApp(FirebaseUserRepository()),
+    return FutureBuilder<bool>(
+        future: FirstRun().isFirstRun(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const CircularProgressIndicator();
+          }
+          if (snapshot.hasData) {
+            print(' Snap shot data is : $snapshot.data');
+          }
+          final hasSeenIntro = snapshot.data ?? false;
+          return BlocProvider(
+            create: (context) => ThemeBloc(),
+            child: BlocBuilder<ThemeBloc, ThemeMode>(
+              builder: (context, state) {
+                return MaterialApp(
+                  title: 'Flutter Demo',
+                  theme: lightTheme,
+                  themeMode: state,
+                  darkTheme: darkTheme,
+                  home: !hasSeenIntro
+                      ? MainApp(FirebaseUserRepository())
+                      : const IntroScreen(),
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
+        });
   }
 }

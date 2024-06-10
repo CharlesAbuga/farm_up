@@ -56,6 +56,7 @@ class LivestockEntity extends Equatable {
   final String breed;
   final List<Vaccination>? vaccinations;
   final List<Quantity>? quantity;
+  final List<String>? images;
   const LivestockEntity({
     required this.vaccinations,
     required this.type,
@@ -66,6 +67,7 @@ class LivestockEntity extends Equatable {
     required this.breed,
     required this.quantity,
     required this.gender,
+    this.images,
   });
 
   Map<String, dynamic> toDocument() {
@@ -79,6 +81,7 @@ class LivestockEntity extends Equatable {
       'gender': gender,
       'vaccinations': vaccinations?.map((e) => e.toDocument()).toList(),
       'quantity': quantity?.map((e) => e.toDocument()).toList(),
+      'images': images,
     };
   }
 
@@ -97,9 +100,11 @@ class LivestockEntity extends Equatable {
       quantity: (doc['quantity'] as List<dynamic>?)
           ?.map((e) => Quantity.fromDocument(e))
           .toList(),
+      images:
+          doc['images'] != null ? (doc['images'] as List).cast<String>() : [],
     );
   }
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [id, userId, type, birthDate, name, breed];
 }

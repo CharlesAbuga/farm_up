@@ -10,6 +10,7 @@ class Livestock {
   String gender;
   List<Vaccination>? vaccinations;
   List<Quantity>? quantity;
+  List<String>? images;
   Livestock({
     required this.gender,
     this.vaccinations,
@@ -20,6 +21,7 @@ class Livestock {
     required this.name,
     required this.breed,
     this.quantity,
+    this.images,
   });
   static var empty = Livestock(
     id: '',
@@ -31,6 +33,7 @@ class Livestock {
     gender: '',
     vaccinations: [],
     quantity: [],
+    images: [],
   );
 
   Livestock copyWith({
@@ -43,6 +46,7 @@ class Livestock {
     String? gender,
     List<Vaccination>? vaccinations,
     List<Quantity>? quantity,
+    List<String>? images,
   }) {
     return Livestock(
       id: id ?? this.id,
@@ -54,6 +58,7 @@ class Livestock {
       breed: breed ?? this.breed,
       vaccinations: vaccinations ?? this.vaccinations,
       quantity: quantity ?? this.quantity,
+      images: images ?? this.images,
     );
   }
 
@@ -71,6 +76,7 @@ class Livestock {
       vaccinations: vaccinations,
       quantity: quantity,
       gender: gender,
+      images: images,
     );
   }
 
@@ -85,6 +91,7 @@ class Livestock {
       vaccinations: entity.vaccinations,
       quantity: entity.quantity,
       gender: entity.gender,
+      images: entity.images,
     );
   }
 }

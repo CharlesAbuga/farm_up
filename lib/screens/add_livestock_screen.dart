@@ -1,13 +1,19 @@
+import 'dart:io';
+
 import 'package:farm_up/bloc/authentication/authentication_bloc.dart';
 import 'package:farm_up/bloc/create_livestock/create_livestock_bloc.dart';
 import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
+import 'package:farm_up/bloc/update_user_info/update_user_info_bloc.dart';
 import 'package:farm_up/widgets/appbar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class AddLivestock extends StatefulWidget {
   const AddLivestock({super.key});
@@ -23,6 +29,21 @@ class _AddLivestockState extends State<AddLivestock> {
   TextEditingController breedController = TextEditingController();
   String selectedGender = 'Male'; // Default value for gender
   DateTime selectedDate = DateTime.now();
+  List<File>? selectedImages;
+  List<String> urlsToUpload = [];
+  Future pickImage() async {
+    // Code to pick an image from the gallery
+    try {
+      final List<XFile> pickedImages = await ImagePicker().pickMultiImage();
+
+      setState(() {
+        selectedImages = pickedImages.map((file) => File(file.path)).toList();
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +70,12 @@ class _AddLivestockState extends State<AddLivestock> {
                 if (state.status == AuthenticationStatus.authenticated) {
                   return MultiBlocProvider(
                     providers: [
+                      BlocProvider(
+                        create: (context) => UpdateUserInfoBloc(
+                          userRepository:
+                              context.read<AuthenticationBloc>().userRepository,
+                        ),
+                      ),
                       BlocProvider(
                         create: (context) => CreateLivestockBloc(
                           // Create a new instance of CreateLivestockBloc
@@ -251,8 +278,8 @@ class _AddLivestockState extends State<AddLivestock> {
                                       const SizedBox(
                                         height: 15,
                                       ),
-                                      Center(
-                                        child: ElevatedButton(
+                                      const Text('6. Add Images'),
+                                      ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                               surfaceTintColor:
                                                   Theme.of(context)
@@ -260,39 +287,160 @@ class _AddLivestockState extends State<AddLivestock> {
                                                       .secondary,
                                               backgroundColor: Theme.of(context)
                                                   .colorScheme
-                                                  .secondary,
+                                                  .tertiary,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10)),
-                                              minimumSize: const Size(
-                                                  double.infinity, 40)),
+                                              minimumSize: const Size(200, 40)),
                                           onPressed: () {
-                                            livestock = Livestock(
-                                              id: '',
-                                              userId: context
-                                                  .read<MyUserBloc>()
-                                                  .state
-                                                  .user!
-                                                  .id,
-                                              gender: selectedGender,
-                                              type: selectedAnimalType,
-                                              birthDate: selectedDate,
-                                              name: nameController.text,
-                                              breed: breedController.text,
-                                            );
-                                            context
-                                                .read<CreateLivestockBloc>()
-                                                .add(
-                                                    CreateLivestock(livestock));
+                                            pickImage();
                                           },
-                                          child: Text(
-                                            'Add Animal',
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .surface),
-                                          ),
+                                          child: Text('Click to add Images',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .surface))),
+                                      selectedImages != null
+                                          ? SizedBox(
+                                              height: 200,
+                                              child: ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      selectedImages!.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return Image.file(
+                                                      selectedImages![index],
+                                                      height: 150,
+                                                      width: 150,
+                                                    );
+                                                  }),
+                                            )
+                                          : const Text(
+                                              'No image selected',
+                                              style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 112, 103, 18)),
+                                            ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Center(
+                                        child: BlocBuilder<UpdateUserInfoBloc,
+                                            UpdateUserInfoState>(
+                                          builder: (context, state) {
+                                            return ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  surfaceTintColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  minimumSize: const Size(
+                                                      double.infinity, 40)),
+                                              onPressed: () async {
+                                                print(
+                                                    selectedImages.toString());
+                                                setState(() {});
+                                                try {
+                                                  final storage = FirebaseStorage
+                                                      .instanceFor(
+                                                          bucket:
+                                                              'gs://farmup-52911.appspot.com');
+                                                  for (final image
+                                                      in selectedImages!) {
+                                                    final imageRef = storage
+                                                        .ref()
+                                                        .child(
+                                                            'userImages/${DateTime.now()}');
+                                                    final uploadTask =
+                                                        imageRef.putFile(image);
+
+                                                    final snapshot =
+                                                        await uploadTask
+                                                            .whenComplete(
+                                                                () => null);
+                                                    final urlsDownload =
+                                                        await snapshot.ref
+                                                            .getDownloadURL();
+                                                    urlsToUpload
+                                                        .add(urlsDownload);
+                                                  }
+
+                                                  livestock = Livestock(
+                                                    id: const Uuid().v1(),
+                                                    userId: context
+                                                        .read<MyUserBloc>()
+                                                        .state
+                                                        .user!
+                                                        .id,
+                                                    gender: selectedGender,
+                                                    type: selectedAnimalType,
+                                                    birthDate: selectedDate,
+                                                    name: nameController.text,
+                                                    breed: breedController.text,
+                                                    images: urlsToUpload,
+                                                  );
+                                                  context
+                                                      .read<
+                                                          CreateLivestockBloc>()
+                                                      .add(CreateLivestock(
+                                                          livestock));
+                                                  context
+                                                      .read<
+                                                          UpdateUserInfoBloc>()
+                                                      .add(UpdateUserInfoRequired(context
+                                                          .read<MyUserBloc>()
+                                                          .state
+                                                          .user!
+                                                          .copyWith(
+                                                              livestock: context
+                                                                  .read<
+                                                                      MyUserBloc>()
+                                                                  .state
+                                                                  .user!
+                                                                  .livestock!
+                                                                ..add(livestock
+                                                                    .toEntity()
+                                                                    .toDocument()))));
+
+                                                  final SnackBar snackBar =
+                                                      SnackBar(
+                                                    content: Text(
+                                                        'Animal added successfully'),
+                                                  );
+                                                  final snackbarController =
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                  snackbarController.closed
+                                                      .then((onValue) {
+                                                    // Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  });
+                                                } catch (e) {
+                                                  print(e.toString());
+                                                }
+                                              },
+                                              child: Text(
+                                                'Add Animal',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .surface),
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
                                     ],

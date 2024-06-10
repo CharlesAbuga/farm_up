@@ -98,17 +98,27 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         child: BlocBuilder<GetLivestockBloc, GetLivestockState>(
                           builder: (context, state) {
                             if (state is GetLivestockSuccess) {
+                              final uniqueAnimalTypes = state.livestock
+                                  .map((animal) => animal.type)
+                                  .toSet()
+                                  .toList();
                               return ListView.builder(
-                                  itemCount: state.livestock.length,
+                                  itemCount: uniqueAnimalTypes.length,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (context, index) {
+                                    final animalType = uniqueAnimalTypes[index];
+                                    // Filter livestock by type for count
+                                    final animalCount = state.livestock
+                                        .where((animal) =>
+                                            animal.type == animalType)
+                                        .length;
                                     return Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: HomeMyFarmContainer(
-                                          picUrl: imageConv.livestockImages[
-                                              state.livestock[index].type]!,
-                                          title: state.livestock[index].type,
-                                          number: '10'),
+                                          picUrl: imageConv
+                                              .livestockImages[animalType]!,
+                                          title: animalType,
+                                          number: animalCount.toString()),
                                     );
                                   });
                             } else if (state is GetLivestockFailure) {

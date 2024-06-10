@@ -1,12 +1,18 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:livestock_repository/src/livestock_repo.dart';
 import 'package:livestock_repository/src/models/livestock.dart';
+import 'package:user_repository/user_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseLivestockRepository implements LivestockRepository {
+  final UserRepository userRepository = FirebaseUserRepository();
+  final FirebaseStorage storage =
+      FirebaseStorage.instanceFor(bucket: 'gs://farmup-52911.appspot.com');
   final liveStockCollection =
       FirebaseFirestore.instance.collection('livestocks');
 
@@ -14,12 +20,18 @@ class FirebaseLivestockRepository implements LivestockRepository {
   Future<Livestock> addLivestock(Livestock livestock) async {
     try {
       livestock.id = const Uuid().v1();
+
+      // 2. Add the image URL to the livestock and save it to Firestore
+
       await liveStockCollection
           .doc(livestock.id)
           .set(livestock.toEntity().toDocument());
+
       return livestock;
     } catch (e) {
       log(e.toString());
+      print(e.toString());
+
       rethrow;
     }
   }
