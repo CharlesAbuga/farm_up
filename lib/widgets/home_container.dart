@@ -15,12 +15,19 @@ class HomeContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        image: DecorationImage(
+        /* image: DecorationImage(
           opacity: 0.2,
           image: AssetImage(imageUrl),
           fit: BoxFit.cover,
+        ), */
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Theme.of(context).colorScheme.secondary,
+            Theme.of(context).colorScheme.tertiary,
+          ],
         ),
-        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(

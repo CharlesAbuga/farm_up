@@ -142,6 +142,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      // The Gridview showing containers for quick access
                       const HomeGridView(),
                     ],
                   ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class DetailCard extends StatelessWidget {
@@ -7,32 +9,31 @@ class DetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+    return ListTile(
+        title: Text(
+          title,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.outline,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(height: 5),
-          Text(
-            value.toString(),
-            style: const TextStyle(
-              fontSize: 16,
-            ),
+        ),
+        subtitle: Text(
+          value.toString(),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.outline,
+            fontSize: 14,
           ),
-        ],
-      ),
-    );
+        ),
+        trailing: ClipRRect(
+          child: IconButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(
+                  Theme.of(context).colorScheme.primary),
+            ),
+            icon: const Icon(size: 18, Icons.edit),
+            onPressed: () {},
+          ),
+        ));
   }
 }
