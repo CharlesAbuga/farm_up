@@ -123,9 +123,12 @@ class AnimalTypesListScreen extends StatelessWidget {
                                         ? ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(8),
-                                            child: Image.network(
-                                                animal.images![0],
-                                                fit: BoxFit.cover),
+                                            child: Hero(
+                                              tag: animal.id,
+                                              child: Image.network(
+                                                  animal.images![0],
+                                                  fit: BoxFit.cover),
+                                            ),
                                           )
                                         : ClipRRect(
                                             borderRadius:

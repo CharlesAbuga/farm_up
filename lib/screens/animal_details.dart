@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:farm_up/bloc/authentication/authentication_bloc.dart';
 import 'package:farm_up/bloc/get_livestock/get_livestock_bloc.dart';
+import 'package:farm_up/screens/vaccinations.dart';
 import 'package:farm_up/widgets/animal_detail_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -102,13 +103,17 @@ class _AnimalDetailsState extends State<AnimalDetails>
                                         0.95,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: FadeInImage.assetNetwork(
-                                        fadeInDuration:
-                                            const Duration(seconds: 2),
-                                        placeholder:
-                                            'assets/images/placeholderimage.png',
-                                        image: livestock.images![selectedImage],
-                                        fit: BoxFit.cover,
+                                      child: Hero(
+                                        tag: livestock.id,
+                                        child: FadeInImage.assetNetwork(
+                                          fadeInDuration:
+                                              const Duration(seconds: 2),
+                                          placeholder:
+                                              'assets/images/placeholderimage.png',
+                                          image:
+                                              livestock.images![selectedImage],
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -259,36 +264,47 @@ class _AnimalDetailsState extends State<AnimalDetails>
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20.0),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text('View Schedule',
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary,
-                                                  fontSize: 12,
-                                                )),
-                                            const SizedBox(width: 5),
-                                            Icon(
-                                              size: 30,
-                                              CupertinoIcons
-                                                  .arrow_right_circle_fill,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                            ),
-                                          ],
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      VaccinationScreen(
+                                                          livestock:
+                                                              livestock)));
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text('View Schedule',
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary,
+                                                    fontSize: 12,
+                                                  )),
+                                              const SizedBox(width: 5),
+                                              Icon(
+                                                size: 30,
+                                                CupertinoIcons
+                                                    .arrow_right_circle_fill,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),

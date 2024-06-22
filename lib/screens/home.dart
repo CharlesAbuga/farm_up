@@ -9,6 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
+import 'package:livestock_repository/livestock_repository.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -64,27 +66,70 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       const Text('Upcoming Activities',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
-                      Row(
-                        children: [
-                          const Icon(Icons.calendar_month),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text('Today'),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primary,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text('Vaccination'),
-                            ),
-                          )
-                        ],
+                      BlocBuilder<GetLivestockBloc, GetLivestockState>(
+                        builder: (context, state) {
+                          if (state is GetLivestockSuccess) {
+                            final vaccinations = state.livestock
+                                .where((animal) =>
+                                    animal.vaccinations !=
+                                    null) // Filter out animals with null vaccinations
+                                .map((animal) => animal
+                                    .vaccinations!) // Access the non-null vaccinations list
+                                .expand((vaccinationsList) =>
+                                    vaccinationsList) // Flatten the lists of vaccinations
+                                .where((vaccination) => vaccination.date
+                                    .isAfter(DateTime
+                                        .now())) // Filter for future dates
+                                .toList();
+
+                            if (vaccinations.isEmpty) {
+                              return const Text('No upcoming activities');
+                            }
+
+                            // Sort the vaccinations by date
+                            //vaccinations.sort((a, b) => a.date.compareTo(b.date));
+
+                            return SizedBox(
+                              height: 100,
+                              child: ListView.builder(
+                                itemCount: vaccinations.length,
+                                itemBuilder: (context, index) {
+                                  final vaccination = vaccinations[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.calendar_month),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(DateFormat('dd-MM-yyyy')
+                                            .format(vaccination.date)),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(vaccination.name),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                          return const Text('No upcoming activities');
+                        },
                       ),
                       const Text(
                         'Your Farm',

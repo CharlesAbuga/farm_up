@@ -26,12 +26,16 @@ class Quantity {
 class Vaccination {
   final String name;
   final DateTime date;
+  final bool isVaccinated;
   final String? description;
 
   Map<String, dynamic> toDocument() {
     return {
       'name': name,
-      'date': date.toIso8601String(), // Convert DateTime to string for storage
+      'date': date.toIso8601String(),
+      'description': description,
+      'isVaccinated': isVaccinated,
+      // Convert DateTime to string for storage
     };
   }
 
@@ -40,10 +44,15 @@ class Vaccination {
       name: doc['name'],
       date: DateTime.parse(doc['date']), // Convert string to DateTime
       description: doc['description'],
+      isVaccinated: doc['isVaccinated'] ?? false,
     );
   }
 
-  Vaccination({required this.name, required this.date, this.description});
+  Vaccination(
+      {required this.name,
+      required this.date,
+      required this.description,
+      this.isVaccinated = false});
 }
 
 class LivestockEntity extends Equatable {
