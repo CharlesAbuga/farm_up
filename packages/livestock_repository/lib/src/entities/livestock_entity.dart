@@ -26,7 +26,7 @@ class Quantity {
 class Vaccination {
   final String name;
   final DateTime date;
-  final bool isVaccinated;
+  bool isVaccinated;
   final String? description;
 
   Map<String, dynamic> toDocument() {

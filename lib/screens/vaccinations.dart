@@ -79,6 +79,36 @@ class _VaccinationScreenState extends State<VaccinationScreen> {
                                 // shadowColor: Theme.of(context).colorScheme.primary,
                                 color: Theme.of(context).colorScheme.surface,
                                 child: ListTile(
+                                  leading: Tooltip(
+                                    message: 'If Vaccinated, Check the box',
+                                    child: BlocProvider(
+                                      create: (context) => UpdateLivestockBloc(
+                                          livestockRepository:
+                                              FirebaseLivestockRepository())
+                                        ..add(
+                                            UpdateLivestock(widget.livestock)),
+                                      child: BlocBuilder<UpdateLivestockBloc,
+                                          UpdateLivestockState>(
+                                        builder: (context, state) {
+                                          return Checkbox(
+                                            value: vaccination.isVaccinated,
+                                            onChanged: (newBool) {
+                                              setState(() {
+                                                vaccination.isVaccinated =
+                                                    newBool ?? false;
+                                              });
+                                              context
+                                                  .read<UpdateLivestockBloc>()
+                                                  .add(
+                                                    UpdateLivestock(
+                                                        widget.livestock),
+                                                  );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                   title: Text(vaccination.name),
                                   subtitle: Text(vaccination.description ?? ''),
                                   trailing: SizedBox(
@@ -108,30 +138,49 @@ class _VaccinationScreenState extends State<VaccinationScreen> {
                             ),
                           ),
                           Positioned(
-                            bottom: 10,
-                            right: 10,
-                            child: Container(
-                              height: 30,
-                              width: MediaQuery.of(context).size.width / 3,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .secondary
-                                        .withOpacity(0.4),
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withOpacity(0.4),
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
+                              bottom: 10,
+                              right: 10,
+                              child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 500),
+                                  height: 30,
+                                  width: MediaQuery.of(context).size.width / 4,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        if (vaccination.isVaccinated ==
+                                            true) ...[
+                                          Colors.greenAccent,
+                                          Colors.green,
+                                        ] else if (vaccination.isVaccinated ==
+                                                false &&
+                                            vaccination.date
+                                                .isAfter(DateTime.now())) ...[
+                                          Colors.yellow,
+                                          const Color.fromARGB(
+                                              255, 188, 114, 3),
+                                        ] else ...[
+                                          const Color.fromARGB(
+                                              255, 233, 133, 133),
+                                          const Color.fromARGB(
+                                              255, 244, 44, 30),
+                                        ]
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      vaccination.isVaccinated == true
+                                          ? 'Vaccinated'
+                                          : vaccination.date
+                                                  .isAfter(DateTime.now())
+                                              ? 'Pending'
+                                              : 'Unvaccinated',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ))), //Might be a problem here
                         ]);
                       },
                     ),
