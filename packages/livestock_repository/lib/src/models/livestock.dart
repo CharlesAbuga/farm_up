@@ -10,6 +10,7 @@ class Livestock {
   String gender;
   List<Vaccination>? vaccinations;
   List<Quantity>? quantity;
+  final List<FeedingTime>? feedingTimes;
   List<String>? images;
   Livestock({
     required this.gender,
@@ -21,6 +22,7 @@ class Livestock {
     required this.name,
     required this.breed,
     this.quantity,
+    this.feedingTimes,
     this.images,
   });
   static var empty = Livestock(
@@ -33,6 +35,7 @@ class Livestock {
     gender: '',
     vaccinations: [],
     quantity: [],
+    feedingTimes: [],
     images: [],
   );
 
@@ -46,6 +49,7 @@ class Livestock {
     String? gender,
     List<Vaccination>? vaccinations,
     List<Quantity>? quantity,
+    List<FeedingTime>? feedingTimes,
     List<String>? images,
   }) {
     return Livestock(
@@ -58,6 +62,7 @@ class Livestock {
       breed: breed ?? this.breed,
       vaccinations: vaccinations ?? this.vaccinations,
       quantity: quantity ?? this.quantity,
+      feedingTimes: feedingTimes ?? this.feedingTimes,
       images: images ?? this.images,
     );
   }
@@ -75,6 +80,7 @@ class Livestock {
       breed: breed,
       vaccinations: vaccinations,
       quantity: quantity,
+      feedingTimes: feedingTimes,
       gender: gender,
       images: images,
     );
@@ -90,6 +96,7 @@ class Livestock {
       breed: entity.breed,
       vaccinations: entity.vaccinations,
       quantity: entity.quantity,
+      feedingTimes: entity.feedingTimes,
       gender: entity.gender,
       images: entity.images,
     );

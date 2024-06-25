@@ -23,6 +23,27 @@ class Quantity {
   Quantity({required this.amount, required this.dateAdded});
 }
 
+class FeedingTime {
+  final DateTime time;
+  final String feedName;
+
+  FeedingTime({required this.time, required this.feedName});
+
+  Map<String, dynamic> toDocument() {
+    return {
+      'time': time.toIso8601String(), // Convert DateTime to string for storage
+      'feedName': feedName,
+    };
+  }
+
+  static FeedingTime fromDocument(Map<String, dynamic> doc) {
+    return FeedingTime(
+      time: DateTime.parse(doc['time']), // Convert string to DateTime
+      feedName: doc['feedName'],
+    );
+  }
+}
+
 class Vaccination {
   final String name;
   final DateTime date;
@@ -65,6 +86,7 @@ class LivestockEntity extends Equatable {
   final String breed;
   final List<Vaccination>? vaccinations;
   final List<Quantity>? quantity;
+  final List<FeedingTime>? feedingTimes;
   final List<String>? images;
   const LivestockEntity({
     required this.vaccinations,
@@ -76,6 +98,7 @@ class LivestockEntity extends Equatable {
     required this.breed,
     required this.quantity,
     required this.gender,
+    this.feedingTimes,
     this.images,
   });
 
@@ -89,6 +112,7 @@ class LivestockEntity extends Equatable {
       'breed': breed,
       'gender': gender,
       'vaccinations': vaccinations?.map((e) => e.toDocument()).toList(),
+      'feedingTimes': feedingTimes?.map((e) => e.toDocument()).toList(),
       'quantity': quantity?.map((e) => e.toDocument()).toList(),
       'images': images,
     };
@@ -109,11 +133,15 @@ class LivestockEntity extends Equatable {
       quantity: (doc['quantity'] as List<dynamic>?)
           ?.map((e) => Quantity.fromDocument(e))
           .toList(),
+      feedingTimes: (doc['feedingTimes'] as List<dynamic>?)
+          ?.map((e) => FeedingTime.fromDocument(e))
+          .toList(),
       images:
           doc['images'] != null ? (doc['images'] as List).cast<String>() : [],
     );
   }
 
   @override
-  List<Object?> get props => [id, userId, type, birthDate, name, breed];
+  List<Object?> get props =>
+      [id, userId, type, birthDate, name, breed, feedingTimes];
 }
