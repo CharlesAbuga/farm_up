@@ -1,10 +1,20 @@
+import 'dart:developer';
+
+import 'package:farm_up/bloc/authentication/authentication_bloc.dart';
+import 'package:farm_up/bloc/get_livestock/get_livestock_bloc.dart';
+import 'package:farm_up/bloc/update_livestock/update_livestock_bloc.dart';
+import 'package:farm_up/screens/feeding_schedule_main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:livestock_repository/livestock_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 class AddFeedingScreen extends StatefulWidget {
   final String animalType;
+
   const AddFeedingScreen({super.key, required this.animalType});
 
   @override
@@ -57,75 +67,227 @@ class _AddFeedingScreenState extends State<AddFeedingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Animal Types'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Text('Add Feeding Schedule for ${widget.animalType} below'),
-              const Text(
-                  'Enter the name on the textfield and the time by clicking the clock icon.'),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        addFeedingSchedule();
+    return BlocProvider(
+      create: (context) => UpdateLivestockBloc(
+          livestockRepository: FirebaseLivestockRepository()),
+      child: BlocBuilder<UpdateLivestockBloc, UpdateLivestockState>(
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) =>
+                AuthenticationBloc(myUserRepository: FirebaseUserRepository()),
+            child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              builder: (context, state) {
+                if (state.status == AuthenticationStatus.authenticated) {
+                  return BlocProvider(
+                    create: (context) => GetLivestockBloc(
+                        livestockRepository: FirebaseLivestockRepository())
+                      ..add(GetLivestock(
+                          context.read<AuthenticationBloc>().state.user!.uid)),
+                    child: BlocBuilder<GetLivestockBloc, GetLivestockState>(
+                      builder: (context, state) {
+                        if (state is GetLivestockSuccess) {
+                          final livestock = state.livestock;
+                          return Scaffold(
+                            appBar: AppBar(
+                              title: const Text('Animal Types'),
+                            ),
+                            body: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        'Add Feeding Schedule for ${widget.animalType} below'),
+                                    const Text(
+                                        'Enter the name on the textfield and the time by clicking the clock icon.'),
+                                    const SizedBox(height: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              addFeedingSchedule();
+                                            },
+                                            child: Container(
+                                              height: 40,
+                                              width: 40,
+                                              padding: const EdgeInsets.all(1),
+                                              decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: const Icon(
+                                                CupertinoIcons.plus,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text('Add another feeding schedule',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary)),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    AnimatedList(
+                                      shrinkWrap: true,
+                                      key: _listKey,
+                                      initialItemCount:
+                                          feedNameControllerList.length,
+                                      itemBuilder:
+                                          (context, index, animation) =>
+                                              _buildanimation(
+                                                  animation,
+                                                  feedNameControllerList[index],
+                                                  timeList[index],
+                                                  context,
+                                                  index),
+                                    ),
+                                    Center(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        onPressed: () {
+                                          try {
+                                            List<Map<String, dynamic>>
+                                                feedingSchedule = [];
+                                            for (int i = 0;
+                                                i <
+                                                    feedNameControllerList
+                                                        .length;
+                                                i++) {
+                                              DateTime dateTime = DateTime(
+                                                timeList[i]
+                                                    .hour, // Access the hour from TimeOfDay
+                                                timeList[i]
+                                                    .minute, // Access the minute from TimeOfDay
+                                              );
+                                              feedingSchedule.add({
+                                                'feedName':
+                                                    feedNameControllerList[i]
+                                                        .text,
+                                                'time':
+                                                    dateTime // Adjust based on your DateTime format
+                                              });
+                                            }
+
+                                            final List<FeedingTime>
+                                                feedingTime = feedingSchedule
+                                                    .map((e) => FeedingTime(
+                                                        feedName: e['feedName'],
+                                                        time: e['time']))
+                                                    .toList();
+
+                                            state.livestock.forEach((element) {
+                                              if (element.type ==
+                                                  widget.animalType) {
+                                                element.feedingTimes =
+                                                    feedingTime;
+
+                                                context
+                                                    .read<UpdateLivestockBloc>()
+                                                    .add(UpdateLivestock(
+                                                        element));
+                                              }
+                                            });
+                                          } catch (e) {
+                                            log(e.toString());
+                                          }
+
+                                          // Save the feeding schedule
+
+                                          print(
+                                              'Feed Name: ${feedNameControllerList.map((e) => e.text).toList()}');
+                                          print('Time: ${timeList}');
+                                        },
+                                        child: BlocConsumer<UpdateLivestockBloc,
+                                            UpdateLivestockState>(
+                                          listener: (context, state) {
+                                            if (state
+                                                is UpdateLivestockLoading) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      backgroundColor:
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .primary,
+                                                      content: const Text(
+                                                          'Schedule Added Successfully'))); // Show a snackbar
+                                            }
+                                            if (state
+                                                is UpdateLivestockSuccess) {
+                                              WidgetsBinding.instance
+                                                  .addPostFrameCallback((_) {
+                                                Navigator.pushReplacement(
+                                                    // Navigate to the previous screen
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const FeedingScheduleMain()));
+                                              });
+                                              // Return a temporary widget that will be displayed until the frame is complete.
+                                            }
+                                          },
+                                          builder: (context, state) {
+                                            if (state
+                                                is UpdateLivestockLoading) {
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  // Show a loading indicator
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .surface,
+                                                ),
+                                              );
+                                            }
+                                            return Text('Save Feeding Schedule',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .surface));
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
                       },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        padding: const EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(
-                          CupertinoIcons.plus,
-                          color: Colors.white,
-                        ),
-                      ),
                     ),
-                    const SizedBox(width: 10),
-                    Text('Add another feeding schedule',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.secondary)),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              AnimatedList(
-                shrinkWrap: true,
-                key: _listKey,
-                initialItemCount: feedNameControllerList.length,
-                itemBuilder: (context, index, animation) => _buildanimation(
-                    animation,
-                    feedNameControllerList[index],
-                    timeList[index],
-                    context,
-                    index),
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    print(
-                        'Feed Name: ${feedNameControllerList.map((e) => e.text).toList()}');
-                    print('Time: ${timeList}');
-                  },
-                  child: const Text('Save Feeding Schedule'),
-                ),
-              ),
-            ],
-          ),
-        ),
+                  );
+                } else {
+                  return const Center(
+                    child: SizedBox(),
+                  );
+                }
+              },
+            ),
+          );
+        },
       ),
     );
   }
@@ -258,7 +420,11 @@ class _AddFeedingScreenState extends State<AddFeedingScreen> {
                     color: Theme.of(context).colorScheme.surface,
                     shape: BoxShape.circle,
                   ),
-                  child: const Center(child: const Icon(CupertinoIcons.minus))),
+                  child: const Center(
+                      child: const Icon(
+                    CupertinoIcons.minus,
+                    size: 20,
+                  ))),
             ),
           )
         ],

@@ -10,7 +10,7 @@ class Livestock {
   String gender;
   List<Vaccination>? vaccinations;
   List<Quantity>? quantity;
-  final List<FeedingTime>? feedingTimes;
+  List<FeedingTime>? feedingTimes;
   List<String>? images;
   Livestock({
     required this.gender,
