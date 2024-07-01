@@ -1,7 +1,9 @@
 import 'package:farm_up/bloc/authentication/authentication_bloc.dart';
 import 'package:farm_up/bloc/get_livestock/get_livestock_bloc.dart';
 import 'package:farm_up/screens/add_feeding_schedule.dart';
+import 'package:farm_up/screens/view_feeding_schedule.dart';
 import 'package:farm_up/widgets/appbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:livestock_repository/livestock_repository.dart';
@@ -27,6 +29,10 @@ class FeedingScheduleMain extends StatelessWidget {
                 builder: (context, state) {
                   if (state is GetLivestockSuccess) {
                     final livestock = state.livestock;
+                    final uniqueAnimalTypes = state.livestock
+                        .map((animal) => animal.type)
+                        .toSet()
+                        .toList();
                     return Scaffold(
                       appBar: const PreferredSize(
                           preferredSize: Size.fromHeight(kToolbarHeight),
@@ -58,7 +64,115 @@ class FeedingScheduleMain extends StatelessWidget {
                               icon: const Icon(Icons.add),
                             ),
                           ),
+
+                          const ListTile(
+                            title: const Text('Your Feeding Schedules',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                          ),
                           // Add list of feeding schedules here
+
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: uniqueAnimalTypes.length,
+                              itemBuilder: (context, index) {
+                                final animalType = uniqueAnimalTypes[index];
+                                final animalsOfThisType = state.livestock
+                                    .where(
+                                        (animal) => animal.type == animalType)
+                                    .toList();
+                                final isFeedingScheduleAvailable =
+                                    animalsOfThisType.any((animal) =>
+                                        animal.feedingTimes != null &&
+                                        animal.feedingTimes!.isNotEmpty);
+                                return Card(
+                                  elevation: 2,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  child: ListTile(
+                                    title: Text(animalType),
+                                    subtitle: Row(
+                                      children: [
+                                        const Text('Feeding Schedule : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Container(
+                                          padding: const EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            color: isFeedingScheduleAvailable
+                                                ? Colors.green
+                                                : Colors.red.withOpacity(0.8),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Text(isFeedingScheduleAvailable
+                                              ? "Available"
+                                              : "Not Available"),
+                                        )
+                                      ],
+                                    ),
+                                    trailing: isFeedingScheduleAvailable
+                                        ? ElevatedButton.icon(
+                                            label: const Text('Edit',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                            ),
+                                            icon: const Icon(
+                                              CupertinoIcons.calendar,
+                                            ),
+                                            onPressed: () {
+                                              // Edit feeding schedule
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewFeedingScreen(
+                                                    livestock: animalsOfThisType
+                                                        .firstWhere((animal) =>
+                                                            animal.type ==
+                                                            animalType),
+                                                    animalType: animalType,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          )
+                                        : ElevatedButton.icon(
+                                            label: const Text('Add',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                            ),
+                                            icon: const Icon(CupertinoIcons
+                                                .calendar_badge_plus),
+                                            onPressed: () {
+                                              // Edit feeding schedule
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddFeedingScreen(
+                                                    animalType: animalType,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       )),
                     );

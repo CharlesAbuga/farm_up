@@ -28,6 +28,15 @@ class FeedingTime {
   final String feedName;
 
   FeedingTime({required this.time, required this.feedName});
+  FeedingTime copyWith({
+    String? feedName,
+    DateTime? time,
+  }) {
+    return FeedingTime(
+      feedName: feedName ?? this.feedName,
+      time: time ?? this.time,
+    );
+  }
 
   Map<String, dynamic> toDocument() {
     return {

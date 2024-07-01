@@ -173,6 +173,11 @@ class _AddFeedingScreenState extends State<AddFeedingScreen> {
                                                         .length;
                                                 i++) {
                                               DateTime dateTime = DateTime(
+                                                DateTime.now()
+                                                    .year, // Use current year
+                                                DateTime.now()
+                                                    .month, // Use current month
+                                                DateTime.now().day,
                                                 timeList[i]
                                                     .hour, // Access the hour from TimeOfDay
                                                 timeList[i]
