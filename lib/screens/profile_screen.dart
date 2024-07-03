@@ -1,6 +1,7 @@
 import 'package:farm_up/bloc/authentication/authentication_bloc.dart';
 import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/bloc/sign_in/sign_in_bloc.dart';
+import 'package:farm_up/bloc/update_user_info/update_user_info_bloc.dart';
 import 'package:farm_up/widgets/appbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  TextEditingController contactController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -68,10 +70,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   subtitle: Text(state.user!.name),
                                 ),
                                 ListTile(
+                                  trailing: IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () {
+                                      showDialogPhoneEdit(context, state,
+                                          state.user!, contactController);
+                                    },
+                                  ),
                                   title: const Text('Phone'),
-                                  subtitle: Text('phone'),
+                                  subtitle: Text(state.user!.phone == null
+                                      ? 'Number not provided'
+                                      : state.user!.phone.toString()),
                                 ),
-                                ListTile(
+                                const ListTile(
                                   title: const Text('Address'),
                                   subtitle: Text('Address'),
                                 ),
@@ -106,6 +117,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
         },
       ),
+    );
+  }
+
+  Future<dynamic> showDialogPhoneEdit(BuildContext context, MyUserState state,
+      MyUser user, TextEditingController phoneController) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return BlocProvider(
+          create: (context) =>
+              UpdateUserInfoBloc(userRepository: FirebaseUserRepository())
+                ..add(UpdateUserInfoRequired(state.user!)),
+          child: BlocBuilder<UpdateUserInfoBloc, UpdateUserInfoState>(
+            builder: (context, state) {
+              return AlertDialog(
+                title: const Text('Edit Contact Number'),
+                content: TextField(
+                  controller: phoneController,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.read<UpdateUserInfoBloc>().add(
+                            UpdateUserInfoRequired(user.copyWith(
+                                phone: contactController.text.isEmpty
+                                    ? null
+                                    : int.parse(contactController.text))),
+                          );
+
+                      Navigator.pop(context);
+                      setState(() {});
+                    },
+                    child: const Text('Save'),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
