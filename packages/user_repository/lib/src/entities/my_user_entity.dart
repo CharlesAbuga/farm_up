@@ -5,6 +5,7 @@ class MyUserEntity extends Equatable {
   final String email;
   final String name;
   final int? phone;
+  final String? county;
   final List<Map<String, dynamic>>? livestock;
 
   const MyUserEntity({
@@ -12,6 +13,7 @@ class MyUserEntity extends Equatable {
     required this.email,
     required this.name,
     this.livestock,
+    this.county,
     this.phone,
   });
   Map<String, dynamic> toDocument() {
@@ -20,7 +22,8 @@ class MyUserEntity extends Equatable {
       'email': email,
       'name': name,
       'livestock': livestock,
-      'phone': phone
+      'phone': phone,
+      'county': county,
     };
   }
 
@@ -30,14 +33,15 @@ class MyUserEntity extends Equatable {
         email: doc['email'],
         name: doc['name'],
         phone: doc['phone'],
+        county: doc['county'],
         livestock:
             (doc['livestock'] as List<dynamic>?)?.cast<Map<String, dynamic>>());
   }
 
   @override
-  List<Object?> get props => [id, email, name];
+  List<Object?> get props => [id, email, name, phone, county, livestock];
 
   String toString() {
-    return '''MyUserEntity { id: $id, email: $email, name: $name , phone: $phone, livestock: $livestock}''';
+    return '''MyUserEntity { id: $id, email: $email, name: $name , phone: $phone, livestock: $livestock, county: $county}''';
   }
 }

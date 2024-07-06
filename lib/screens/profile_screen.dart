@@ -2,6 +2,7 @@ import 'package:farm_up/bloc/authentication/authentication_bloc.dart';
 import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/bloc/sign_in/sign_in_bloc.dart';
 import 'package:farm_up/bloc/update_user_info/update_user_info_bloc.dart';
+import 'package:farm_up/counties.dart';
 import 'package:farm_up/widgets/appbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -82,9 +83,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ? 'Number not provided'
                                       : state.user!.phone.toString()),
                                 ),
-                                const ListTile(
-                                  title: const Text('Address'),
-                                  subtitle: Text('Address'),
+                                ListTile(
+                                  title: const Text('County'),
+                                  subtitle: state.user!.county == null
+                                      ? const Text('County not provided')
+                                      : Text(state.user!.county!),
+                                  trailing: IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () {
+                                      showDialogCountyEdit(
+                                          context, state, state.user!);
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -117,6 +127,90 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
         },
       ),
+    );
+  }
+
+  Future<dynamic> showDialogCountyEdit(
+      BuildContext context, MyUserState state, MyUser user) {
+    final List<String> counties = KenyanCounties().counties
+      ..sort((a, b) => a.compareTo(b));
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Select County'),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return BlocProvider(
+                create: (context) =>
+                    UpdateUserInfoBloc(userRepository: FirebaseUserRepository())
+                      ..add(UpdateUserInfoRequired(state.user!)),
+                child: BlocBuilder<UpdateUserInfoBloc, UpdateUserInfoState>(
+                  builder: (context, state) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            labelText: user.county ?? 'Select County',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          value: user.county,
+                          items: counties
+                              .asMap()
+                              .entries
+                              .map<DropdownMenuItem<String>>((entry) {
+                            final value = entry.value;
+                            int index = entry.key + 1;
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text('$index. $value'),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            setState(() {
+                              context.read<UpdateUserInfoBloc>().add(
+                                    UpdateUserInfoRequired(
+                                      user.copyWith(county: value),
+                                    ),
+                                  );
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 2,
+                            surfaceTintColor:
+                                Theme.of(context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            // Save the selected county
+                            // You can add your own logic here
+                            Navigator.pop(context);
+                          },
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.exit_to_app),
+                              Text('Exit'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

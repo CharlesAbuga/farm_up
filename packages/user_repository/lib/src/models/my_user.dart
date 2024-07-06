@@ -7,6 +7,7 @@ class MyUser extends Equatable {
   final String email;
   final String name;
   final int? phone;
+  final String? county;
   final List<Map<String, dynamic>>? livestock;
 
   const MyUser({
@@ -14,6 +15,7 @@ class MyUser extends Equatable {
     required this.email,
     required this.name,
     required this.phone,
+    this.county,
     this.livestock,
   });
 
@@ -24,6 +26,7 @@ class MyUser extends Equatable {
     String? email,
     String? name,
     int? phone,
+    String? county,
     List<Map<String, dynamic>>? livestock,
   }) {
     return MyUser(
@@ -32,6 +35,7 @@ class MyUser extends Equatable {
       name: name ?? this.name,
       livestock: livestock ?? this.livestock,
       phone: phone ?? this.phone,
+      county: county ?? this.county,
     );
   }
 
@@ -41,7 +45,12 @@ class MyUser extends Equatable {
 
   MyUserEntity toEntity() {
     return MyUserEntity(
-        id: id, email: email, name: name, livestock: livestock, phone: phone);
+        id: id,
+        email: email,
+        name: name,
+        livestock: livestock,
+        phone: phone,
+        county: county);
   }
 
   static MyUser fromEntity(MyUserEntity entity) {
@@ -51,9 +60,10 @@ class MyUser extends Equatable {
       name: entity.name,
       livestock: entity.livestock,
       phone: entity.phone,
+      county: entity.county,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, email, livestock, phone];
+  List<Object?> get props => [id, name, email, livestock, phone, county];
 }

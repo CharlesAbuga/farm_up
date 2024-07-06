@@ -51,6 +51,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             );
           }
           if (state.status == MyUserStatus.success) {
+            print(state.user!.phone);
             return SafeArea(
               child: SingleChildScrollView(
                 child: Padding(

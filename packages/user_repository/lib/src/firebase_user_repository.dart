@@ -68,13 +68,13 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
-  Future<MyUser> getMyUser(String myUserId) async {
+  Stream<MyUser> getMyUser(String myUserId) {
     try {
       return userCollection
           .doc(myUserId)
-          .get()
-          .then((value) => MyUser.fromEntity(
-                MyUserEntity.fromDocument(value.data()!),
+          .snapshots()
+          .map((snapshot) => MyUser.fromEntity(
+                MyUserEntity.fromDocument(snapshot.data()!),
               ));
     } catch (e) {
       log(e.toString());
