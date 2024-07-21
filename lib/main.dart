@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:farm_up/bloc/theme_bloc/theme_bloc.dart';
+import 'package:farm_up/firebase_api.dart';
 import 'package:farm_up/first_run.dart';
 import 'package:farm_up/intro_screen.dart';
 import 'package:farm_up/main_app.dart';
@@ -14,8 +15,10 @@ import 'package:user_repository/user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (Platform.isIOS) {
     await Firebase.initializeApp();
+    await FirebaseApi().initNotifications();
   }
   if (Platform.isAndroid) {
     await Firebase.initializeApp(
@@ -25,7 +28,9 @@ void main() async {
       messagingSenderId: '522828671309',
       projectId: "farmup-52911",
     ));
+    await FirebaseApi().initNotifications();
   }
+
   Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }

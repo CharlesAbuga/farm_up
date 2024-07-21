@@ -98,6 +98,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ],
                             ),
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.95,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Column(
+                                  children: [
+                                    const Row(
+                                      children: [
+                                        const Text(
+                                          'Are you a Veterinary Doctor?',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text('Click the Button to Apply'),
+                                        ElevatedButton(
+                                            onPressed: () {},
+                                            child: const Text('Apply')),
+                                      ],
+                                    ),
+                                  ],
+                                )),
                             BlocBuilder<SignInBloc, SignInState>(
                               builder: (context, state) {
                                 return Center(

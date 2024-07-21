@@ -33,7 +33,7 @@ class MyUserBloc extends Bloc<MyUserEvent, MyUserState> {
       });
     } on FirebaseException catch (e) {
       print(e.toString());
-      print(e.message);
+      log(e.toString());
       log(e.toString());
       emit(const MyUserState.failure());
     }
