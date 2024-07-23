@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 import 'package:user_repository/src/entities/entities.dart';
 
@@ -9,6 +10,8 @@ class MyUser extends Equatable {
   final int? phone;
   final String? county;
   final List<Map<String, dynamic>>? livestock;
+  final bool? isVet;
+  final List<String>? vetInformation;
 
   const MyUser({
     required this.id,
@@ -17,10 +20,19 @@ class MyUser extends Equatable {
     required this.phone,
     this.county,
     this.livestock,
+    this.isVet = false,
+    this.vetInformation,
   });
 
-  static const empty =
-      MyUser(id: '', email: '', name: '', livestock: [], phone: 0);
+  static const empty = MyUser(
+      id: '',
+      email: '',
+      name: '',
+      livestock: [],
+      phone: 0,
+      county: '',
+      isVet: false,
+      vetInformation: []);
   MyUser copyWith({
     String? id,
     String? email,
@@ -28,6 +40,8 @@ class MyUser extends Equatable {
     int? phone,
     String? county,
     List<Map<String, dynamic>>? livestock,
+    bool isVet = false,
+    List<String>? vetInformation,
   }) {
     return MyUser(
       id: id ?? this.id,
@@ -36,6 +50,8 @@ class MyUser extends Equatable {
       livestock: livestock ?? this.livestock,
       phone: phone ?? this.phone,
       county: county ?? this.county,
+      isVet: isVet,
+      vetInformation: vetInformation ?? this.vetInformation,
     );
   }
 
@@ -50,7 +66,9 @@ class MyUser extends Equatable {
         name: name,
         livestock: livestock,
         phone: phone,
-        county: county);
+        isVet: isVet,
+        county: county,
+        vetInformation: vetInformation);
   }
 
   static MyUser fromEntity(MyUserEntity entity) {
@@ -60,10 +78,13 @@ class MyUser extends Equatable {
       name: entity.name,
       livestock: entity.livestock,
       phone: entity.phone,
+      isVet: entity.isVet,
       county: entity.county,
+      vetInformation: entity.vetInformation,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, email, livestock, phone, county];
+  List<Object?> get props =>
+      [id, name, email, livestock, phone, county, isVet, vetInformation];
 }

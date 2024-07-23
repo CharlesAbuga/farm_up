@@ -56,14 +56,14 @@ class MyApp extends StatelessWidget {
             child: BlocBuilder<ThemeBloc, ThemeMode>(
               builder: (context, state) {
                 return MaterialApp(
-                  title: 'Flutter Demo',
-                  theme: lightTheme,
-                  themeMode: state,
-                  darkTheme: darkTheme,
-                  home: !hasSeenIntro
-                      ? MainApp(FirebaseUserRepository())
-                      : const IntroScreen(),
-                );
+                    title: 'Flutter Demo',
+                    theme: lightTheme,
+                    themeMode: state,
+                    darkTheme: darkTheme,
+                    home: MainApp(FirebaseUserRepository()) //!hasSeenIntro
+                    //     ? MainApp(FirebaseUserRepository())
+                    //     : const IntroScreen(),
+                    );
               },
             ),
           );

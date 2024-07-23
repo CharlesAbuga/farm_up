@@ -3,6 +3,7 @@ import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/bloc/sign_in/sign_in_bloc.dart';
 import 'package:farm_up/bloc/update_user_info/update_user_info_bloc.dart';
 import 'package:farm_up/counties.dart';
+import 'package:farm_up/screens/vet_apply.dart';
 import 'package:farm_up/widgets/appbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -103,31 +104,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                     color:
-                                        Theme.of(context).colorScheme.primary,
+                                        Theme.of(context).colorScheme.secondary,
                                     borderRadius: BorderRadius.circular(15)),
-                                child: Column(
-                                  children: [
-                                    const Row(
-                                      children: [
-                                        const Text(
-                                          'Are you a Veterinary Doctor?',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text('Click the Button to Apply'),
-                                        ElevatedButton(
-                                            onPressed: () {},
-                                            child: const Text('Apply')),
-                                      ],
-                                    ),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 16.0),
+                                            child: Text(
+                                              'Are you a Veterinary Doctor?',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Click the Button to Apply',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surface),
+                                          ),
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            VetApply(
+                                                                user:
+                                                                    state.user!,
+                                                                state: state)));
+                                              },
+                                              child: Text(
+                                                'Apply',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurface),
+                                              )),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 )),
                             BlocBuilder<SignInBloc, SignInState>(
                               builder: (context, state) {
