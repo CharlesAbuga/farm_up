@@ -1,6 +1,8 @@
+import 'package:farm_up/bloc/gemini_chat/gemini_chat_bloc.dart';
 import 'package:farm_up/bloc/get_livestock/get_livestock_bloc.dart';
 import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/image_conv.dart';
+import 'package:farm_up/screens/chat_app.dart';
 import 'package:farm_up/screens/feeding_schedule_main.dart';
 import 'package:farm_up/widgets/appbar.dart';
 import 'package:farm_up/widgets/home_container.dart';
@@ -207,7 +209,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
         tooltip: 'Chat with Farm assistant',
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (context, animation, secondaryAnimation) {
+                return BlocProvider(
+                  create: (context) => ChatBloc(),
+                  child: const ChatPage(),
+                );
+              }));
+        },
         child: const Icon(Icons.message),
       ),
     );

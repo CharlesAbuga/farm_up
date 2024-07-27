@@ -337,6 +337,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.9"
+  firebase_app_check:
+    dependency: transitive
+    description:
+      name: firebase_app_check
+      sha256: "92a72c3a557455eadf39b2d7c2ef7d1b4fc4dd79c6b1edbaae1bc1c4a62309ed"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0+3"
+  firebase_app_check_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_app_check_platform_interface
+      sha256: "703017a0378d00127b94c7eef239fc18c0d04b66310634534e02df9ee5785691"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0+33"
+  firebase_app_check_web:
+    dependency: transitive
+    description:
+      name: firebase_app_check_web
+      sha256: a737957345510f55e08e3356c19bd0a80d77c72510bda5a6f67387a0b4c78c10
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2+11"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -433,6 +457,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.9.11"
+  firebase_vertexai:
+    dependency: "direct main"
+    description:
+      name: firebase_vertexai
+      sha256: "72565c34ec39e196c1779e8235b6d0b8e41999360429c39481ef1f7f34c07a55"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2+2"
   fixnum:
     dependency: transitive
     description:
@@ -515,6 +547,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.2"
+  flutter_spinkit:
+    dependency: "direct main"
+    description:
+      name: flutter_spinkit
+      sha256: d2696eed13732831414595b98863260e33e8882fc069ee80ec35d4ac9ddb0472
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -562,6 +602,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  google_generative_ai:
+    dependency: transitive
+    description:
+      name: google_generative_ai
+      sha256: "76e35d93b8c1cd888f69a1a371f8c5dc54cec372b6c74a4c0a5d506e7cf82c1a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.3"
   google_identity_services_web:
     dependency: transitive
     description:
