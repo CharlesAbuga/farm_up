@@ -37,14 +37,20 @@ After cloning the project cd into it and run it.
 - Vaccination Schedule for reminding users on the right date to vaccinate animals.
 - Intuitive animations that not only alert users on some actions but also makes usage smooth.
 - Intuitive navigation system to easily go to relevant pages easily.
+
 ## Screenshots
+Below are the screenshots of the applications highlighting the main pages including the Gemini Chat page.
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
+![HomePage](assets/screenshots/Screenshot_1722328771.png)
+![My Animals](assets/screenshots/Screenshot_1722328781.png)
+![Animal Types](assets/screenshots/Screenshot_1722328803.png)
+![Feeding Schedule](assets/screenshots/Screenshot_1722379805.png)
+![Chat Page1](assets/screenshots/Screenshot_1722380172.png)
+![Chat Page2](assets/screenshots/Screenshot_1722380178.png)
 
 ## License
 
-```bash
+```
 
 MIT License (MIT)
 
