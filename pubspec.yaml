@@ -45,6 +45,7 @@ dependencies:
   mocktail: ^1.0.4
   file_picker: ^8.0.6
   flutter_spinkit: ^5.2.1
+  url_launcher: ^6.3.0
 
 
   # Firebase Operations

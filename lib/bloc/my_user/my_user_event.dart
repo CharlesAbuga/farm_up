@@ -15,3 +15,10 @@ class GetMyUser extends MyUserEvent {
   @override
   List<Object> get props => [myUserId];
 }
+
+class GetMyUsers extends MyUserEvent {
+  const GetMyUsers();
+
+  @override
+  List<Object> get props => [];
+}

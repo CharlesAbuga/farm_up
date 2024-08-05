@@ -12,12 +12,17 @@ part 'my_user_state.dart';
 class MyUserBloc extends Bloc<MyUserEvent, MyUserState> {
   final UserRepository _userRepository;
   StreamSubscription<MyUser>? _myUserSubscription;
+  StreamSubscription<List<MyUser>>? _myUsersSubscription;
 
   MyUserBloc({required UserRepository myUserRepository})
       : _userRepository = myUserRepository,
         super(const MyUserState.loading()) {
     on<GetMyUser>((event, emit) async {
       await _fetchUserData(event.myUserId);
+    });
+
+    on<GetMyUsers>((event, emit) async {
+      await _fetchAllUsers();
     });
   }
   Future<void> _fetchUserData(String userId) async {
@@ -39,9 +44,28 @@ class MyUserBloc extends Bloc<MyUserEvent, MyUserState> {
     }
   }
 
+  Future<void> _fetchAllUsers() async {
+    emit(MyUserState.loading());
+    try {
+      final myUsersStream = _userRepository.getAllUsers();
+      _myUsersSubscription = myUsersStream.listen((myUsers) {
+        emit(MyUserState.successAllUsers(myUsers));
+      }, onError: (e) {
+        print(e);
+        log(e.toString());
+        emit(const MyUserState.failure());
+      });
+    } on FirebaseException catch (e) {
+      print(e.toString());
+      log(e.toString());
+      emit(const MyUserState.failure());
+    }
+  }
+
   @override
   Future<void> close() {
     _myUserSubscription?.cancel();
+    _myUsersSubscription?.cancel();
     return super.close();
   }
 }

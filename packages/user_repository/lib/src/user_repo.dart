@@ -8,6 +8,7 @@ abstract class UserRepository {
   Future<void> logOut();
   Future<void> resetPassword(String email);
   Stream<MyUser> getMyUser(String myUserId);
+  Stream<List<MyUser>> getAllUsers();
   Future<void> setUserData(MyUser user);
   Future<void> updateUserData(MyUser user);
   Future<void> signInWithGoogle();

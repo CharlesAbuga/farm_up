@@ -21,6 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: AppBarWidget(titlePage: 'Settings')),
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BlocBuilder<ThemeBloc, ThemeMode>(
                 builder: (context, themeMode) {
@@ -38,7 +39,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   );
                 },
               ),
-              // Add more settings widgets here
             ],
           ),
         ));

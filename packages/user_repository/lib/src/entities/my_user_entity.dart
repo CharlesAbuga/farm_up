@@ -8,7 +8,9 @@ class MyUserEntity extends Equatable {
   final String? county;
   final List<Map<String, dynamic>>? livestock;
   final bool? isVet;
+  final String? nationalId;
   final List<String>? vetInformation;
+  final List<Map<String, String>>? newsArticles;
 
   const MyUserEntity({
     required this.id,
@@ -17,8 +19,10 @@ class MyUserEntity extends Equatable {
     this.livestock,
     this.county,
     this.phone,
-    this.isVet = false,
+    this.isVet,
     this.vetInformation,
+    this.newsArticles,
+    this.nationalId,
   });
   Map<String, dynamic> toDocument() {
     return {
@@ -30,6 +34,8 @@ class MyUserEntity extends Equatable {
       'county': county,
       'isVet': isVet,
       'vetInformation': vetInformation,
+      'newsArticles': newsArticles,
+      'nationalId': nationalId,
     };
   }
 
@@ -40,9 +46,13 @@ class MyUserEntity extends Equatable {
       name: doc['name'],
       phone: doc['phone'],
       county: doc['county'],
+      nationalId: doc['nationalId'],
       livestock:
           (doc['livestock'] as List<dynamic>?)?.cast<Map<String, dynamic>>(),
       isVet: doc['isVet'],
+      newsArticles: (doc['newsArticles'] as List<dynamic>?)
+          ?.map((item) => Map<String, String>.from(item))
+          .toList(),
       vetInformation: doc['vetInformation'] != null
           ? (doc['vetInformation'] as List).cast<String>()
           : [],
@@ -50,10 +60,20 @@ class MyUserEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [id, email, name, phone, county, livestock, isVet, vetInformation];
+  List<Object?> get props => [
+        id,
+        email,
+        name,
+        phone,
+        county,
+        livestock,
+        isVet,
+        vetInformation,
+        newsArticles,
+        nationalId,
+      ];
 
   String toString() {
-    return '''MyUserEntity { id: $id, email: $email, name: $name , phone: $phone, livestock: $livestock, county: $county, isVet: $isVet, vetInformation: $vetInformation}''';
+    return '''MyUserEntity { id: $id, email: $email, name: $name , phone: $phone, livestock: $livestock, county: $county, isVet: $isVet, vetInformation: $vetInformation, newsArticles: $newsArticles, nationalId: $nationalId }''';
   }
 }

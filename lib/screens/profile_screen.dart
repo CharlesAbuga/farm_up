@@ -3,6 +3,7 @@ import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/bloc/sign_in/sign_in_bloc.dart';
 import 'package:farm_up/bloc/update_user_info/update_user_info_bloc.dart';
 import 'package:farm_up/counties.dart';
+import 'package:farm_up/screens/articles.dart';
 import 'package:farm_up/screens/vet_apply.dart';
 import 'package:farm_up/widgets/appbar.dart';
 import 'package:flutter/foundation.dart';
@@ -99,85 +100,167 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ],
                             ),
-                            Container(
-                                width: MediaQuery.of(context).size.width * 0.95,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
+                            state.user!.isVet != null &&
+                                    state.user!.isVet == false
+                                ? Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.95,
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: Column(
                                         children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 16.0),
-                                            child: Text(
-                                              'Are you a Veterinary Doctor?',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Click the Button to Apply',
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .surface),
-                                          ),
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 16.0),
+                                                child: Text(
+                                                  'Are you a Veterinary Doctor?',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
                                               ),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            VetApply(
-                                                                user:
-                                                                    state.user!,
-                                                                state: state)));
-                                              },
-                                              child: Text(
-                                                'Apply',
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Click the Button to Apply',
                                                 style: TextStyle(
                                                     color: Theme.of(context)
                                                         .colorScheme
-                                                        .onSurface),
-                                              )),
+                                                        .surface),
+                                              ),
+                                              ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .primary,
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                VetApply(
+                                                                    user: state
+                                                                        .user!,
+                                                                    state:
+                                                                        state)));
+                                                  },
+                                                  child: Text(
+                                                    'Apply',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onSurface),
+                                                  )),
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                    ],
+                                    ))
+                                : Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.95,
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'You are  registered as a Veterinary Doctor, you can help us in writing farm articles',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Row(
+                                          children: [
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                ),
+                                                onPressed: () {
+                                                  // Add your logic here
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Articles()));
+                                                },
+                                                child: Text(
+                                                  'Write Article',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurface),
+                                                )),
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  BlocBuilder<SignInBloc, SignInState>(
+                                    builder: (context, state) {
+                                      return Center(
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurface,
+                                              ),
+                                              onPressed: () {
+                                                context
+                                                    .read<SignInBloc>()
+                                                    .add(SignOutRequired());
+                                              },
+                                              child: Text(
+                                                'Sign Out',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .surface),
+                                              )));
+                                    },
                                   ),
-                                )),
-                            BlocBuilder<SignInBloc, SignInState>(
-                              builder: (context, state) {
-                                return Center(
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          context
-                                              .read<SignInBloc>()
-                                              .add(SignOutRequired());
-                                        },
-                                        child: const Text('Sign Out')));
-                              },
+                                ],
+                              ),
                             ),
                           ],
                         ),

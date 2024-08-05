@@ -83,6 +83,22 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
+  Stream<List<MyUser>> getAllUsers() {
+    try {
+      return userCollection.snapshots().map((snapshot) {
+        return snapshot.docs.map((doc) {
+          return MyUser.fromEntity(
+            MyUserEntity.fromDocument(doc.data()),
+          );
+        }).toList();
+      });
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
   Future<void> setUserData(MyUser user) async {
     try {
       await userCollection.doc(user.id).set(user.toEntity().toDocument());

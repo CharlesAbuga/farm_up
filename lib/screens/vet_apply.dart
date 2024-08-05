@@ -4,11 +4,14 @@ import 'package:farm_up/bloc/authentication/authentication_bloc.dart';
 import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/bloc/update_user_info/update_user_info_bloc.dart';
 import 'package:farm_up/counties.dart';
+import 'package:farm_up/screens/completion.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -23,12 +26,17 @@ class VetApply extends StatefulWidget {
 
 class _VetApplyState extends State<VetApply> {
   int currentStep = 0;
+  TextEditingController idController = TextEditingController();
+  List<File> filespicked = [];
+  bool isComplete = false;
   Future pickFile() async {
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(allowMultiple: true);
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      List<File> files = result.paths.map((path) => File(path!)).toList();
+      File file = File(result.files.single.path!);
+      setState(() {
+        filespicked.add(file);
+      });
     } else {
       // User canceled the picker
     }
@@ -46,6 +54,7 @@ class _VetApplyState extends State<VetApply> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: idController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20)),
@@ -85,6 +94,18 @@ class _VetApplyState extends State<VetApply> {
                       const Text('No file selected')
                     ],
                   ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          pickFile();
+                        },
+                        child: const Text('Upload Certificate'),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text('No file selected')
+                    ],
+                  ),
                 ],
               )),
           Step(
@@ -93,138 +114,212 @@ class _VetApplyState extends State<VetApply> {
               content: Container()),
         ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Vet Apply'),
-      ),
-      body: BlocProvider(
-        create: (context) =>
-            AuthenticationBloc(myUserRepository: FirebaseUserRepository()),
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-            if (state.status == AuthenticationStatus.authenticated) {
-              return BlocProvider(
-                create: (context) =>
-                    MyUserBloc(myUserRepository: FirebaseUserRepository())
-                      ..add(GetMyUser(myUserId: state.user!.uid)),
-                child: BlocBuilder<MyUserBloc, MyUserState>(
-                  builder: (context, state) {
-                    if (state.status == MyUserStatus.success) {
-                      return SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                                child: const Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: const Column(
-                                    children: [
-                                      ListTile(
-                                          leading: const Icon(
-                                            Icons.medical_services,
-                                            color: Colors.white,
-                                          ),
-                                          title: Text(
-                                            'Veterinary Application',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          subtitle: Text(
-                                            'Apply to be a vet by entering the following details and uploading the required documents',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                            ),
-                                          )),
-                                    ],
-                                  ),
+    return isComplete
+        ? Scaffold(
+            appBar: AppBar(
+              title: const Text('Completed'),
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.check_circle, size: 100, color: Colors.green)
+                      .animate()
+                      .scale(duration: Duration(seconds: 1)),
+                  Text('Congratulations! You have completed the Appliacation'),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Exit'))
+                ],
+              ),
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              title: Text('Vet Apply'),
+            ),
+            body: BlocProvider(
+              create: (context) => AuthenticationBloc(
+                  myUserRepository: FirebaseUserRepository()),
+              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                builder: (context, state) {
+                  if (state.status == AuthenticationStatus.authenticated) {
+                    return BlocProvider(
+                      create: (context) =>
+                          MyUserBloc(myUserRepository: FirebaseUserRepository())
+                            ..add(GetMyUser(myUserId: state.user!.uid)),
+                      child: BlocBuilder<MyUserBloc, MyUserState>(
+                        builder: (context, state) {
+                          if (state.status == MyUserStatus.success) {
+                            return SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                      ),
+                                      child: const Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: const Column(
+                                          children: [
+                                            ListTile(
+                                                leading: const Icon(
+                                                  Icons.medical_services,
+                                                  color: Colors.white,
+                                                ),
+                                                title: Text(
+                                                  'Veterinary Application',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                subtitle: Text(
+                                                  'Apply to be a vet by entering the following details and uploading the required documents',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => UpdateUserInfoBloc(
+                                          userRepository:
+                                              FirebaseUserRepository()),
+                                      child: BlocBuilder<UpdateUserInfoBloc,
+                                          UpdateUserInfoState>(
+                                        builder: (context, state) {
+                                          return Stepper(
+                                            steps: getSteps(),
+                                            currentStep: currentStep,
+                                            onStepContinue: () async {
+                                              final isLastStep = currentStep ==
+                                                  getSteps().length - 1;
+                                              if (isLastStep) {
+                                                final storage =
+                                                    FirebaseStorage.instanceFor(
+                                                        bucket:
+                                                            'gs://farmup-52911.appspot.com');
+                                                List<String> downloadUrls = [];
+
+                                                for (var file in filespicked) {
+                                                  final ref = storage.ref().child(
+                                                      'vet_apply/${file.path.split('/').last}');
+                                                  final uploadTask =
+                                                      await ref.putFile(file);
+                                                  final downloadUrl =
+                                                      await uploadTask.ref
+                                                          .getDownloadURL();
+                                                  downloadUrls.add(downloadUrl);
+                                                }
+
+                                                context
+                                                    .read<UpdateUserInfoBloc>()
+                                                    .add(
+                                                      UpdateUserInfoRequired(
+                                                        widget.user.copyWith(
+                                                          nationalId:
+                                                              idController.text,
+                                                          vetInformation:
+                                                              downloadUrls,
+                                                        ),
+                                                      ),
+                                                    );
+                                                setState(() {
+                                                  isComplete = true;
+                                                });
+
+                                                print('Submit');
+                                              } else {
+                                                setState(() {
+                                                  currentStep += 1;
+                                                });
+                                              }
+                                            },
+                                            controlsBuilder:
+                                                (BuildContext context,
+                                                    ControlsDetails details) {
+                                              final isLastStep = currentStep ==
+                                                  getSteps().length - 1;
+                                              return Container(
+                                                child: Row(
+                                                  children: [
+                                                    ElevatedButton(
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        elevation: 2,
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .secondary,
+                                                      ),
+                                                      onPressed: details
+                                                          .onStepContinue,
+                                                      child: isLastStep
+                                                          ? Text('Complete')
+                                                          : Text('Next'),
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    if (currentStep != 0)
+                                                      ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          elevation: 2,
+                                                        ),
+                                                        onPressed: details
+                                                            .onStepCancel,
+                                                        child: Text('Back',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .secondary)),
+                                                      ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                            onStepTapped: (step) {
+                                              setState(() {
+                                                currentStep = step;
+                                              });
+                                            },
+                                            onStepCancel: currentStep == 0
+                                                ? null
+                                                : () => setState(() {
+                                                      currentStep -= 1;
+                                                    }),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              Stepper(
-                                steps: getSteps(),
-                                currentStep: currentStep,
-                                onStepContinue: () {
-                                  final isLastStep =
-                                      currentStep == getSteps().length - 1;
-                                  if (isLastStep) {
-                                    print('Submit');
-                                  } else {
-                                    setState(() {
-                                      currentStep += 1;
-                                    });
-                                  }
-                                },
-                                controlsBuilder: (BuildContext context,
-                                    ControlsDetails details) {
-                                  final isLastStep =
-                                      currentStep == getSteps().length - 1;
-                                  return Container(
-                                    child: Row(
-                                      children: [
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            elevation: 2,
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                          ),
-                                          onPressed: details.onStepContinue,
-                                          child: isLastStep
-                                              ? Text('Complete')
-                                              : Text('Next'),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        if (currentStep != 0)
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              elevation: 2,
-                                            ),
-                                            onPressed: details.onStepCancel,
-                                            child: Text('Back',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary)),
-                                          ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                onStepTapped: (step) {
-                                  setState(() {
-                                    currentStep = step;
-                                  });
-                                },
-                                onStepCancel: currentStep == 0
-                                    ? null
-                                    : () => setState(() {
-                                          currentStep -= 1;
-                                        }),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  },
-                ),
-              );
-            }
-            return const Center(child: SizedBox());
-          },
-        ),
-      ),
-    );
+                            );
+                          }
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        },
+                      ),
+                    );
+                  }
+                  return const Center(child: SizedBox());
+                },
+              ),
+            ),
+          );
   }
 
   Future<dynamic> showDialogCountyEdit(

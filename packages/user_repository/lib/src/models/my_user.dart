@@ -12,6 +12,8 @@ class MyUser extends Equatable {
   final List<Map<String, dynamic>>? livestock;
   final bool? isVet;
   final List<String>? vetInformation;
+  final String? nationalId;
+  final List<Map<String, String>>? newsArticles;
 
   const MyUser({
     required this.id,
@@ -20,8 +22,10 @@ class MyUser extends Equatable {
     required this.phone,
     this.county,
     this.livestock,
-    this.isVet = false,
+    this.isVet,
     this.vetInformation,
+    this.newsArticles,
+    this.nationalId = '',
   });
 
   static const empty = MyUser(
@@ -32,6 +36,8 @@ class MyUser extends Equatable {
       phone: 0,
       county: '',
       isVet: false,
+      newsArticles: [],
+      nationalId: '',
       vetInformation: []);
   MyUser copyWith({
     String? id,
@@ -42,6 +48,8 @@ class MyUser extends Equatable {
     List<Map<String, dynamic>>? livestock,
     bool isVet = false,
     List<String>? vetInformation,
+    String? nationalId,
+    List<Map<String, String>>? newsArticles,
   }) {
     return MyUser(
       id: id ?? this.id,
@@ -52,6 +60,8 @@ class MyUser extends Equatable {
       county: county ?? this.county,
       isVet: isVet,
       vetInformation: vetInformation ?? this.vetInformation,
+      newsArticles: newsArticles ?? this.newsArticles,
+      nationalId: nationalId ?? this.nationalId,
     );
   }
 
@@ -68,6 +78,8 @@ class MyUser extends Equatable {
         phone: phone,
         isVet: isVet,
         county: county,
+        newsArticles: newsArticles,
+        nationalId: nationalId,
         vetInformation: vetInformation);
   }
 
@@ -80,11 +92,23 @@ class MyUser extends Equatable {
       phone: entity.phone,
       isVet: entity.isVet,
       county: entity.county,
+      nationalId: entity.nationalId,
+      newsArticles: entity.newsArticles,
       vetInformation: entity.vetInformation,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [id, name, email, livestock, phone, county, isVet, vetInformation];
+  List<Object?> get props => [
+        id,
+        name,
+        email,
+        livestock,
+        phone,
+        county,
+        isVet,
+        vetInformation,
+        newsArticles,
+        nationalId
+      ];
 }

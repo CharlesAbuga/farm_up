@@ -2,8 +2,10 @@ import 'package:farm_up/bloc/gemini_chat/gemini_chat_bloc.dart';
 import 'package:farm_up/bloc/get_livestock/get_livestock_bloc.dart';
 import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/image_conv.dart';
+import 'package:farm_up/screens/articles_view.dart';
 import 'package:farm_up/screens/chat_app.dart';
 import 'package:farm_up/screens/feeding_schedule_main.dart';
+import 'package:farm_up/screens/vet_screen.dart';
 import 'package:farm_up/widgets/appbar.dart';
 import 'package:farm_up/widgets/home_container.dart';
 import 'package:farm_up/widgets/home_container_outlined.dart';
@@ -242,6 +244,9 @@ class HomeGridView extends StatelessWidget {
         GestureDetector(
           onTap: () {
             // Navigate to daily insights page
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const ArtclesViews();
+            }));
           },
           child: const HomeContainerOutlined(
               icon: Icon(Icons.auto_graph), title: 'Daily Insights'),
@@ -261,6 +266,9 @@ class HomeGridView extends StatelessWidget {
         GestureDetector(
           onTap: () {
             // Navigate to feeding schedule page
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const VetScreen();
+            }));
           },
           child: const HomeContainer(
             icon: Icon(Icons.medication_outlined),

@@ -105,13 +105,19 @@ class _AnimalDetailsState extends State<AnimalDetails>
                                       borderRadius: BorderRadius.circular(10),
                                       child: Hero(
                                         tag: livestock.id,
-                                        child: FadeInImage.assetNetwork(
+                                        child: FadeInImage(
+                                          placeholder: const AssetImage(
+                                              'assets/images/placeholderimage.png'),
+                                          image: NetworkImage(
+                                            (livestock.images != null &&
+                                                    livestock
+                                                        .images!.isNotEmpty)
+                                                ? livestock
+                                                    .images![selectedImage]
+                                                : 'https://i0.wp.com/port2flavors.com/wp-content/uploads/2022/07/placeholder-614.png?fit=1200%2C800&ssl=1',
+                                          ),
                                           fadeInDuration:
                                               const Duration(seconds: 2),
-                                          placeholder:
-                                              'assets/images/placeholderimage.png',
-                                          image:
-                                              livestock.images![selectedImage],
                                           fit: BoxFit.cover,
                                         ),
                                       ),
