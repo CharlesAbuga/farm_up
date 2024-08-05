@@ -41,7 +41,7 @@ After cloning the project cd into it and run it.
 ## Screenshots
 Below are the screenshots of the applications highlighting the main pages including the Gemini Chat page.
 
-![HomePage](assets/screenshots/Screenshot_1722328771.png)
+![HomePage](assets/screenshots/Screenshot_1722328771.png =240x600)
 ![My Animals](assets/screenshots/Screenshot_1722328781.png)
 ![Animal Types](assets/screenshots/Screenshot_1722328803.png)
 ![Feeding Schedule](assets/screenshots/Screenshot_1722379805.png)
