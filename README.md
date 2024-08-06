@@ -41,13 +41,13 @@ After cloning the project cd into it and run it.
 ## Screenshots
 Below are the screenshots of the applications highlighting the main pages including the Gemini Chat page.
 
+<Row>
 ### HomePage
 <img src="assets/screenshots/Screenshot_1722328771.png" width="240" height="600" alt="HomePage">
 
 ### My Animals
 <img src="assets/screenshots/Screenshot_1722328781.png" width="240" height="600" alt="My Animals">
-
-
+</Row>
 ### Animal Types
 <img src="assets/screenshots/Screenshot_1722328803.png" width="240" height="600" alt="Animal types">
 
@@ -58,7 +58,7 @@ Below are the screenshots of the applications highlighting the main pages includ
 <img src="assets/screenshots/Screenshot_1722380172.png" width="240" height="600" alt="Chat Page 1">
 
 
-### Chat Page w
+### Chat Page 2
 <img src="assets/screenshots/Screenshot_1722380178.png" width="240" height="600" alt="Chat Page 2">
 
 ## License
