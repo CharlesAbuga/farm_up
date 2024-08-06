@@ -41,7 +41,7 @@ After cloning the project cd into it and run it.
 ## Example codes
 
 ### Vertex API Sample Code
-Here is the code for the vertex API integration that is in the [gemini_chat_bloc](lib/bloc/gemini_chat/gemini_chat_bloc.dart)
+Here is the code snippet for the vertex API integration that is in the [gemini_chat_bloc](lib/bloc/gemini_chat/gemini_chat_bloc.dart)
 
 ```
   final model = FirebaseVertexAI.instance.generativeModel(
@@ -73,6 +73,13 @@ Below are the screenshots of the applications highlighting the main pages includ
 
 ### Chat Page 2
 <img src="assets/screenshots/Screenshot_1722380178.png" width="240" height="600" alt="Chat Page 2">
+
+## Features to be Implemented soon...
+You are very much welcome in implementing the following features 🛠️🛠️
+
+- A complete notification system using Flutter Notifications integrated with firebaseto notify farmers on various feeding times.
+- A complete settings page with various theme color options to choose from.
+- A text messaging page where farmers can chat with vetrinary officers and get professional feedback on their queries.
 
 ## License
 
