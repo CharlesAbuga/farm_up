@@ -41,7 +41,7 @@ After cloning the project cd into it and run it.
 ## Example codes
 
 ### Vertex API Sample Code
-Here is the code for the vertex API integration to the code 
+Here is the code for the vertex API integration that is in the [gemini_chat_bloc](lib/bloc/gemini_chat/gemini_chat_bloc.dart)
 
 ```
   final model = FirebaseVertexAI.instance.generativeModel(
