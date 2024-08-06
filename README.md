@@ -38,16 +38,29 @@ After cloning the project cd into it and run it.
 - Intuitive animations that not only alert users on some actions but also makes usage smooth.
 - Intuitive navigation system to easily go to relevant pages easily.
 
+## Example codes
+
+### Vertex API Sample Code
+Here is the code for the vertex API integration to the code 
+
+```
+  final model = FirebaseVertexAI.instance.generativeModel(
+    model: 'gemini-1.5-flash',
+    systemInstruction: Content.system(
+        "You are a farm helper bot.Your goal is to help farmers with their queries limiting them to only livestock related queries."),
+  );
+```
+
 ## Screenshots
 Below are the screenshots of the applications highlighting the main pages including the Gemini Chat page.
 
-<Row>
+
 ### HomePage
 <img src="assets/screenshots/Screenshot_1722328771.png" width="240" height="600" alt="HomePage">
 
 ### My Animals
 <img src="assets/screenshots/Screenshot_1722328781.png" width="240" height="600" alt="My Animals">
-</Row>
+
 ### Animal Types
 <img src="assets/screenshots/Screenshot_1722328803.png" width="240" height="600" alt="Animal types">
 
