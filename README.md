@@ -1,6 +1,8 @@
 
 # Farm Up Application
 
+Farming has greatly improved over the years, yet one thing that scratches the heads of many farmers is a proper farm management system, that will enable them to accurately run farm activities without the worry of missing scheduled deadlines, hence the creation of FarmUp. An app that solves this specific problem.
+
 This is an application made for farmers to help them manage their livestock using various features such as scheduling feeds, vaccinations and also capturing quantity of produce. 
 
 It enables farmers focus on more important farm activities as it is cumbersome to remember all activities without a proper management system.
@@ -12,7 +14,7 @@ The app utilizes Gemini API in the chat section to help farmers seek solutions t
 
 ### Prerequisites
 
-- IDE of choice, preferably [VSCode](https://code.visualstudio.com/download).
+- IDE of choice, either [VSCode](https://code.visualstudio.com/download) or [Android Studio](https://developer.android.com/studio).
 - [Firebase](https://firebase.google.com/) for the backend services.
 - [Flutter](https://docs.flutter.dev/get-started/install) Framework.
 - Gemini API using google's [Vertex AI](https://firebase.google.com/docs/vertex-ai/get-started)
@@ -20,7 +22,7 @@ The app utilizes Gemini API in the chat section to help farmers seek solutions t
 
 
 ### How to Install
-Download flutter from the above link and follow installation steps. Configure your own firebase app and integrate Vertex AI to the project based on the platform.
+Download flutter from the above link and follow installation steps. Configure your own firebase app including setting your own API and following the steps outlined in firebase based on the platform, either [android](https://firebase.google.com/docs/flutter/setup?platform=android), [ios](https://firebase.google.com/docs/flutter/setup?platform=ios) or [web](https://firebase.google.com/docs/flutter/setup?platform=web) and integrate Vertex AI to the project based on the platform.
 
 
 ```bash
@@ -34,14 +36,15 @@ After cloning the project cd into it and run it.
 ```
     
 ## Key Features
+- Chat page integrated with Gemini API to help farmers get useful answers to their prompts.
 - Vaccination Schedule for reminding users on the right date to vaccinate animals.
 - Intuitive animations that not only alert users on some actions but also makes usage smooth.
 - Intuitive navigation system to easily go to relevant pages easily.
 
 ## Example codes
 
-### Vertex API Sample Code
-Here is the code snippet for the vertex API integration that is in the [gemini_chat_bloc](lib/bloc/gemini_chat/gemini_chat_bloc.dart)
+### Gemini API with Vertex AI Sample Code
+Here is the code snippet for the vertex AI integration that is in the [gemini_chat_bloc](lib/bloc/gemini_chat/gemini_chat_bloc.dart)
 
 ```
   final model = FirebaseVertexAI.instance.generativeModel(
@@ -79,7 +82,8 @@ You are very much welcome in implementing the following features 🛠️🛠️
 
 - A complete notification system using Flutter Notifications integrated with firebaseto notify farmers on various feeding times.
 - A complete settings page with various theme color options to choose from.
-- A text messaging page where farmers can chat with vetrinary officers and get professional feedback on their queries.
+- A text messaging page where farmers can chat with veterinary officers and get professional feedback on their queries.
+- An amount section that shows amount of milk in cows, or eggs in chicken produces and graphs to see the rate of produce for a certain period.
 
 ## License
 

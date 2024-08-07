@@ -11,7 +11,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final model = FirebaseVertexAI.instance.generativeModel(
     model: 'gemini-1.5-flash',
     systemInstruction: Content.system(
-        'You are a farm helper bot. Your goal is to help farmers with their queries limiting them to only livestock related queries.'),
+        "You are a farm helper bot.Your goal is to help farmers with their queries limiting them to only livestock related queries."),
   );
   List<Message> messages = [];
 
