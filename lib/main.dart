@@ -11,10 +11,12 @@ import 'package:farm_up/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:user_repository/user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
 
   if (Platform.isIOS) {
     await Firebase.initializeApp();
@@ -22,16 +24,17 @@ void main() async {
   }
   if (Platform.isAndroid) {
     await Firebase.initializeApp(
-        options: const FirebaseOptions(
-      apiKey: "AIzaSyA1CYG5anGSGcikqto8AN9gjNf0iP-zw5c",
-      appId: "1:522828671309:android:9f58aba1bd9c605677af04",
-      messagingSenderId: '522828671309',
+        options: FirebaseOptions(
+      apiKey: "${dotenv.env['APIKEY_FIREBASE']}",
+      appId: "${dotenv.env['APP_ID']}",
+      messagingSenderId: "${dotenv.env['MESSAGE_SENDER_ID']}",
       projectId: "farmup-52911",
     ));
     await FirebaseApi().initNotifications();
   }
 
   Bloc.observer = SimpleBlocObserver();
+
   runApp(const MyApp());
 }
 
