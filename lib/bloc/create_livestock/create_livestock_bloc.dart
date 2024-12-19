@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:livestock_repository/livestock_repository.dart';
 
 part 'create_livestock_event.dart';

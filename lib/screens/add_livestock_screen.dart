@@ -414,7 +414,7 @@ class _AddLivestockState extends State<AddLivestock> {
                                                                     .toDocument()))));
 
                                                   final SnackBar snackBar =
-                                                      SnackBar(
+                                                      const SnackBar(
                                                     content: Text(
                                                         'Animal added successfully'),
                                                   );

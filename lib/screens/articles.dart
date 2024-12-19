@@ -2,7 +2,6 @@ import 'package:farm_up/bloc/authentication/authentication_bloc.dart';
 import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/bloc/update_user_info/update_user_info_bloc.dart';
 import 'package:farm_up/widgets/appbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';

@@ -199,7 +199,8 @@ class _AddFeedingScreenState extends State<AddFeedingScreen> {
                                                         time: e['time']))
                                                     .toList();
 
-                                            state.livestock.forEach((element) {
+                                            for (var element
+                                                in state.livestock) {
                                               if (element.type ==
                                                   widget.animalType) {
                                                 element.feedingTimes =
@@ -210,7 +211,7 @@ class _AddFeedingScreenState extends State<AddFeedingScreen> {
                                                     .add(UpdateLivestock(
                                                         element));
                                               }
-                                            });
+                                            }
                                           } catch (e) {
                                             log(e.toString());
                                           }
@@ -219,7 +220,7 @@ class _AddFeedingScreenState extends State<AddFeedingScreen> {
 
                                           print(
                                               'Feed Name: ${feedNameControllerList.map((e) => e.text).toList()}');
-                                          print('Time: ${timeList}');
+                                          print('Time: $timeList');
                                         },
                                         child: BlocConsumer<UpdateLivestockBloc,
                                             UpdateLivestockState>(
@@ -426,7 +427,7 @@ class _AddFeedingScreenState extends State<AddFeedingScreen> {
                     shape: BoxShape.circle,
                   ),
                   child: const Center(
-                      child: const Icon(
+                      child: Icon(
                     CupertinoIcons.minus,
                     size: 20,
                   ))),

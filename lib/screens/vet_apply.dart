@@ -48,7 +48,7 @@ class _VetApplyState extends State<VetApply> {
           Step(
               state: currentStep == 0 ? StepState.indexed : StepState.complete,
               isActive: currentStep >= 0,
-              title: Text('Basic Information'),
+              title: const Text('Basic Information'),
               content: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -79,7 +79,7 @@ class _VetApplyState extends State<VetApply> {
           Step(
               state: currentStep == 1 ? StepState.indexed : StepState.complete,
               isActive: currentStep >= 1,
-              title: Text('Required Documents'),
+              title: const Text('Required Documents'),
               content: Column(
                 children: [
                   Row(
@@ -110,7 +110,7 @@ class _VetApplyState extends State<VetApply> {
               )),
           Step(
               isActive: currentStep >= 2,
-              title: Text('Complete'),
+              title: const Text('Complete'),
               content: Container()),
         ];
 
@@ -123,22 +123,23 @@ class _VetApplyState extends State<VetApply> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.check_circle, size: 100, color: Colors.green)
+                  const Icon(Icons.check_circle, size: 100, color: Colors.green)
                       .animate()
                       .scale(duration: Duration(seconds: 1)),
-                  Text('Congratulations! You have completed the Appliacation'),
+                  const Text(
+                      'Congratulations! You have completed the Appliacation'),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('Exit'))
+                      child: const Text('Exit'))
                 ],
               ),
             ),
           )
         : Scaffold(
             appBar: AppBar(
-              title: Text('Vet Apply'),
+              title: const Text('Vet Apply'),
             ),
             body: BlocProvider(
               create: (context) => AuthenticationBloc(
@@ -166,11 +167,11 @@ class _VetApplyState extends State<VetApply> {
                                             .secondary,
                                       ),
                                       child: const Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: const Column(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Column(
                                           children: [
                                             ListTile(
-                                                leading: const Icon(
+                                                leading: Icon(
                                                   Icons.medical_services,
                                                   color: Colors.white,
                                                 ),
@@ -267,8 +268,9 @@ class _VetApplyState extends State<VetApply> {
                                                       onPressed: details
                                                           .onStepContinue,
                                                       child: isLastStep
-                                                          ? Text('Complete')
-                                                          : Text('Next'),
+                                                          ? const Text(
+                                                              'Complete')
+                                                          : const Text('Next'),
                                                     ),
                                                     const SizedBox(width: 10),
                                                     if (currentStep != 0)

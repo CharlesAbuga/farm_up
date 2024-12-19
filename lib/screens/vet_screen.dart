@@ -45,7 +45,7 @@ class VetScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           const Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -87,7 +87,7 @@ class VetScreen extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: EdgeInsets.all(8.0),
                                           child: CircleAvatar(
                                             radius: 30,
                                           ),
@@ -141,8 +141,7 @@ class VetScreen extends StatelessWidget {
                                                         child: const Row(
                                                           children: [
                                                             Icon(Icons.call),
-                                                            const SizedBox(
-                                                                width: 5),
+                                                            SizedBox(width: 5),
                                                             Text('Call'),
                                                           ],
                                                         ))

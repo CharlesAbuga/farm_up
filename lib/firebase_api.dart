@@ -82,7 +82,7 @@ class FirebaseApi {
 
     // Set the initialization settings for both platforms
     final InitializationSettings initializationSettings =
-        InitializationSettings(
+        const InitializationSettings(
       android: androidInitializationSettings,
       iOS: iosInitializationSettings,
     );

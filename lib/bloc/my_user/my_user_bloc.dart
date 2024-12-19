@@ -26,7 +26,7 @@ class MyUserBloc extends Bloc<MyUserEvent, MyUserState> {
     });
   }
   Future<void> _fetchUserData(String userId) async {
-    emit(MyUserState.loading());
+    emit(const MyUserState.loading());
     try {
       final myUserStream = _userRepository.getMyUser(userId);
       _myUserSubscription = myUserStream.listen((myUser) {
@@ -45,7 +45,7 @@ class MyUserBloc extends Bloc<MyUserEvent, MyUserState> {
   }
 
   Future<void> _fetchAllUsers() async {
-    emit(MyUserState.loading());
+    emit(const MyUserState.loading());
     try {
       final myUsersStream = _userRepository.getAllUsers();
       _myUsersSubscription = myUsersStream.listen((myUsers) {

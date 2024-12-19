@@ -30,7 +30,7 @@ class _IntroScreenState extends State<IntroScreen> {
               onLastPage = index == 2;
             });
           },
-          children: [IntroPageOne(), IntroPageTwo(), IntroPageThree()],
+          children: const [IntroPageOne(), IntroPageTwo(), IntroPageThree()],
         ),
         Container(
             alignment: const Alignment(0, 0.85),

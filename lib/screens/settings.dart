@@ -27,8 +27,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 builder: (context, themeMode) {
                   return SwitchListTile(
                     secondary: context.read<ThemeBloc>().state == ThemeMode.dark
-                        ? Icon(Icons.dark_mode)
-                        : Icon(Icons.light_mode),
+                        ? const Icon(Icons.dark_mode)
+                        : const Icon(Icons.light_mode),
                     title: const Text('Dark Mode'),
                     value: themeMode == ThemeMode.dark,
                     onChanged: (value) {

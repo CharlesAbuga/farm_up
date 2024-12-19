@@ -135,7 +135,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                       ],
                     );
                   } else if (state is ChatLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else {
                     return Center(
                         child: Row(

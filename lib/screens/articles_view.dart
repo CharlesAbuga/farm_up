@@ -87,7 +87,7 @@ class ArtclesViews extends StatelessWidget {
                         ],
                       );
                     }
-                    return SizedBox();
+                    return const SizedBox();
                   },
                 ),
               );

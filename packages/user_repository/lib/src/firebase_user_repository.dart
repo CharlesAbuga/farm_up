@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:user_repository/user_repository.dart';
 
 class FirebaseUserRepository implements UserRepository {

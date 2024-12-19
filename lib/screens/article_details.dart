@@ -25,9 +25,10 @@ class ArticleDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
-              Text(content, style: TextStyle()),
+              Text(content, style: const TextStyle()),
             ],
           ),
         ));

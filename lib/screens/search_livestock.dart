@@ -7,12 +7,14 @@ import 'package:livestock_repository/livestock_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class SearchLivestock extends StatefulWidget {
+  const SearchLivestock({super.key});
+
   @override
   _SearchLivestockState createState() => _SearchLivestockState();
 }
 
 class _SearchLivestockState extends State<SearchLivestock> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   List<Livestock> _filteredLivestock = [];
   final FocusNode _searchFocusNode = FocusNode();
 
@@ -46,7 +48,7 @@ class _SearchLivestockState extends State<SearchLivestock> {
               child: BlocBuilder<GetLivestockBloc, GetLivestockState>(
                 builder: (context, state) {
                   if (state is GetLivestockLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (state is GetLivestockSuccess) {
                     List<Livestock> livestock = state.livestock;
                     _filteredLivestock = livestock.where((livestock) {
@@ -57,7 +59,7 @@ class _SearchLivestockState extends State<SearchLivestock> {
 
                     return Scaffold(
                       appBar: AppBar(
-                        title: Text('Livestock Search'),
+                        title: const Text('Livestock Search'),
                       ),
                       body: Column(
                         children: [
@@ -97,7 +99,8 @@ class _SearchLivestockState extends State<SearchLivestock> {
                       ),
                     );
                   } else if (state is GetLivestockFailure) {
-                    return Center(child: Text('Failed to load livestock'));
+                    return const Center(
+                        child: Text('Failed to load livestock'));
                   } else {
                     return Container();
                   }
@@ -105,7 +108,7 @@ class _SearchLivestockState extends State<SearchLivestock> {
               ),
             );
           } else {
-            return Center(child: Text('Not authenticated'));
+            return const Center(child: Text('Not authenticated'));
           }
         },
       ),

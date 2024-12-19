@@ -4,11 +4,8 @@ import 'package:farm_up/bloc/sign_in/sign_in_bloc.dart';
 import 'package:farm_up/bloc/sign_up/sign_up_bloc.dart';
 import 'package:farm_up/screens/authentication/sign_in_screen.dart';
 import 'package:farm_up/screens/authentication/sign_up_screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});

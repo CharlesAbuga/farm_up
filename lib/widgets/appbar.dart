@@ -73,7 +73,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
-                  return NotificationWidget();
+                  return const NotificationWidget();
                 });
           },
         ),

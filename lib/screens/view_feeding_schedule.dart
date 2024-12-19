@@ -53,7 +53,7 @@ class _ViewFeedingScreenState extends State<ViewFeedingScreen> {
                         child: DropdownButton<String>(
                           borderRadius: BorderRadius.circular(20),
                           value: _selectedView,
-                          icon: SizedBox(),
+                          icon: const SizedBox(),
                           onChanged: (String? newValue) {
                             // Handle dropdown value change
                             setState(() {
@@ -125,8 +125,8 @@ class _ViewFeedingScreenState extends State<ViewFeedingScreen> {
                               ));
                         });
                   },
-                  icon: Icon(Icons.add),
-                  label: Text('Add Feeding Schedule'),
+                  icon: const Icon(Icons.add),
+                  label: const Text('Add Feeding Schedule'),
                   style: ElevatedButton.styleFrom(
                     surfaceTintColor: Theme.of(context).colorScheme.primary,
                     elevation: 3,
@@ -418,7 +418,7 @@ class _TableModeState extends State<TableMode> {
                     ),
                     TableCell(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           'Edit',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -475,7 +475,7 @@ class _TableModeState extends State<TableMode> {
                                     print(e.toString());
                                   }
                                 },
-                                icon: Icon(Icons.edit),
+                                icon: const Icon(Icons.edit),
                               ),
                               IconButton(
                                 style: ButtonStyle(
@@ -507,7 +507,7 @@ class _TableModeState extends State<TableMode> {
                                     print(e.toString());
                                   }
                                 },
-                                icon: Icon(Icons.edit),
+                                icon: const Icon(Icons.edit),
                               ),
                             ],
                           ),
@@ -553,7 +553,7 @@ class _TableModeState extends State<TableMode> {
                   ),
                   TableCell(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Edit',
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -609,7 +609,7 @@ class _TableModeState extends State<TableMode> {
                                   print(e.toString());
                                 }
                               },
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                             ),
                             IconButton(
                               style: ButtonStyle(
@@ -639,7 +639,7 @@ class _TableModeState extends State<TableMode> {
                                   print(e.toString());
                                 }
                               },
-                              icon: Icon(Icons.delete),
+                              icon: const Icon(Icons.delete),
                             ),
                           ],
                         ),
@@ -895,9 +895,7 @@ class _AddDialogContentState extends State<AddDialogContent> {
                   );
 
                   // Check if feedingTimes is null, if so initialize it
-                  if (currentLivestock.feedingTimes == null) {
-                    currentLivestock.feedingTimes = [];
-                  }
+                  currentLivestock.feedingTimes ??= [];
 
                   // Add the new FeedingTime to the list
                   currentLivestock.feedingTimes!.add(newFeedingTime);
@@ -946,7 +944,7 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
       mainAxisSize:
           MainAxisSize.min, // To make the dialog content size wrap its content
       children: [
-        Text(
+        const Text(
           'Are you sure you want to delete this feeding time?',
           style: TextStyle(fontSize: 16),
         ),

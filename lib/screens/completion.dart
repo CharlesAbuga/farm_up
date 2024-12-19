@@ -18,10 +18,10 @@ class CompletionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.check_circle, size: 100, color: Colors.green)
+            const Icon(Icons.check_circle, size: 100, color: Colors.green)
                 .animate()
                 .scale(duration: Duration(seconds: 1)),
-            Text('Congratulations! You have completed the Appliacation'),
+            const Text('Congratulations! You have completed the Appliacation'),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -53,7 +53,7 @@ class CompletionScreen extends StatelessWidget {
                   );
                 }));
               },
-              child: Text('Go Back'),
+              child: const Text('Go Back'),
             )
           ],
         ),

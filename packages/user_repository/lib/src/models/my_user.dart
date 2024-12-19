@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:livestock_repository/livestock_repository.dart';
 import 'package:user_repository/src/entities/entities.dart';
 
 class MyUser extends Equatable {

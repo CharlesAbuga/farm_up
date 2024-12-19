@@ -5,7 +5,6 @@ import 'package:farm_up/firebase_api.dart';
 import 'package:farm_up/first_run.dart';
 import 'package:farm_up/intro_screen.dart';
 import 'package:farm_up/main_app.dart';
-import 'package:farm_up/screens/homepage.dart';
 import 'package:farm_up/simple_bloc_observer.dart';
 import 'package:farm_up/theme.dart';
 import 'package:firebase_core/firebase_core.dart';

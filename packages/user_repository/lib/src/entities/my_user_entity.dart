@@ -73,6 +73,7 @@ class MyUserEntity extends Equatable {
         nationalId,
       ];
 
+  @override
   String toString() {
     return '''MyUserEntity { id: $id, email: $email, name: $name , phone: $phone, livestock: $livestock, county: $county, isVet: $isVet, vetInformation: $vetInformation, newsArticles: $newsArticles, nationalId: $nationalId }''';
   }

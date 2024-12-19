@@ -2,8 +2,6 @@ import 'package:farm_up/screens/home.dart';
 import 'package:farm_up/screens/my_animals.dart';
 import 'package:farm_up/screens/profile_screen.dart';
 import 'package:farm_up/screens/settings.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

@@ -66,7 +66,7 @@ class FeedingScheduleMain extends StatelessWidget {
                           ),
 
                           const ListTile(
-                            title: const Text('Your Feeding Schedules',
+                            title: Text('Your Feeding Schedules',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20)),
                           ),

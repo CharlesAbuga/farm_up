@@ -120,8 +120,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           Row(
                                             children: [
                                               Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 16.0),
+                                                padding: const EdgeInsets.only(
+                                                    top: 16.0),
                                                 child: Text(
                                                   'Are you a Veterinary Doctor?',
                                                   style: TextStyle(
@@ -213,7 +213,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              Articles()));
+                                                              const Articles()));
                                                 },
                                                 child: Text(
                                                   'Write Article',
@@ -246,9 +246,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         .onSurface,
                                               ),
                                               onPressed: () {
-                                                context
-                                                    .read<SignInBloc>()
-                                                    .add(SignOutRequired());
+                                                context.read<SignInBloc>().add(
+                                                    const SignOutRequired());
                                               },
                                               child: Text(
                                                 'Sign Out',

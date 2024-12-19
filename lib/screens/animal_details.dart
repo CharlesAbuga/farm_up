@@ -231,7 +231,7 @@ class _AnimalDetailsState extends State<AnimalDetails>
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 2,
                                           blurRadius: 3,
-                                          offset: Offset(1, 1),
+                                          offset: const Offset(1, 1),
                                         ),
                                       ],
                                       borderRadius: BorderRadius.circular(10),
@@ -325,7 +325,7 @@ class _AnimalDetailsState extends State<AnimalDetails>
                                         color: Colors.grey.withOpacity(0.5),
                                         spreadRadius: 2,
                                         blurRadius: 3,
-                                        offset: Offset(1, 1),
+                                        offset: const Offset(1, 1),
                                       ),
                                     ],
                                     borderRadius: BorderRadius.circular(10),
@@ -484,8 +484,8 @@ class LiquidClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    final double waveHeight = 20.0;
-    final double waveFrequency = 2.0 * math.pi;
+    const double waveHeight = 20.0;
+    const double waveFrequency = 2.0 * math.pi;
 
     path.moveTo(0.0, size.height);
     for (double x = 0.0; x < size.width; x += 1.0) {

@@ -6,7 +6,6 @@ import 'package:farm_up/bloc/my_user/my_user_bloc.dart';
 import 'package:farm_up/bloc/sign_in/sign_in_bloc.dart';
 import 'package:farm_up/bloc/update_user_info/update_user_info_bloc.dart';
 import 'package:farm_up/screens/homescreen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -10,12 +10,9 @@ import 'package:farm_up/widgets/appbar.dart';
 import 'package:farm_up/widgets/home_container.dart';
 import 'package:farm_up/widgets/home_container_outlined.dart';
 import 'package:farm_up/widgets/home_my_farm_container.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:livestock_repository/livestock_repository.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

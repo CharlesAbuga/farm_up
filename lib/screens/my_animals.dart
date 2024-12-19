@@ -68,7 +68,7 @@ class MyAnimalsScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 30,
               ),
               const ListTile(
-                title: const Text(
+                title: Text(
                   'Your Animals are:',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),

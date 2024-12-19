@@ -15,7 +15,7 @@ class IntroPageThree extends StatelessWidget {
             children: [
               Center(
                 child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                     child:
                         Image.asset(fit: BoxFit.cover, 'assets/images/2.gif')),
               ),
@@ -36,6 +36,5 @@ class IntroPageThree extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
